@@ -1,0 +1,8 @@
+Button("Animate") {
+   withAnimation(.easeOut) {
+      roundCorners = true
+   }
+   withAnimation(.linear) {
+      boxScale = 2
+   }
+}

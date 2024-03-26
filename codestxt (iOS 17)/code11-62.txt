@@ -1,0 +1,39 @@
+import SwiftUI
+
+class ContentViewData {
+   var radius: CGFloat = 0
+   var step: CGFloat = 5
+   var lastTime: Double = 0
+   var maxTime: Double = 0.02
+}
+struct ContentView: View {
+   let contentData = ContentViewData()
+
+   var body: some View {
+      TimelineView(.animation) { time in
+         let interval = time.date.timeIntervalSinceReferenceDate
+         let delta = interval - contentData.lastTime
+
+         Canvas { context, size in
+            if delta > contentData.maxTime {
+               calculateRadius()
+               contentData.lastTime = interval
+            }
+            let rad = contentData.radius
+            let circleFrame = CGRect(x: size.width/2 - rad, y: size.height/2 - rad, width: rad * 2, height: rad * 2)
+            context.fill(Circle().path(in: circleFrame), with: .color(.red))
+         }.ignoresSafeArea()
+      }
+   }
+   func calculateRadius() {
+      contentData.radius = contentData.radius + contentData.step
+      if contentData.step < 0 && contentData.radius < 0 {
+         contentData.radius = 0
+         contentData.step = 5
+      }
+      if contentData.step > 0 && contentData.radius > 150 {
+         contentData.radius = 150
+         contentData.step = -5
+      }
+   }
+}

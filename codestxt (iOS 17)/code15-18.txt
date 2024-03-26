@@ -1,0 +1,34 @@
+struct CreateFileView: View {
+   @Environment(ApplicationData.self) private var appData
+   @Environment(\.dismiss) var dismiss
+   @State private var inputFileName: String = ""
+   @State private var buttonDisabled: Bool = false
+
+   var body: some View {
+      VStack {
+         HStack {
+            Button("Close") {
+               dismiss()
+            }
+            Spacer()
+            Button("Create") {
+               let fileName = inputFileName.trimmingCharacters(in: .whitespaces)
+               if !fileName.isEmpty && !appData.listOfFiles.contains(where: { $0.name == fileName }) {
+                  buttonDisabled = true
+
+                  Task(priority: .high) {
+                     await appData.createFile(name: fileName)
+                     dismiss()
+                  }
+               }
+            }.disabled(buttonDisabled)
+         }.padding()
+         TextField("Insert name and extension", text: $inputFileName)
+            .textFieldStyle(.roundedBorder)
+            .autocapitalization(.none)
+            .autocorrectionDisabled(true)
+            .padding()
+         Spacer()
+      }
+   }
+}

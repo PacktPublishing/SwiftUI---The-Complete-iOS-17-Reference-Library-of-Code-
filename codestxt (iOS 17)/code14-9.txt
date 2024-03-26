@@ -1,0 +1,32 @@
+import SwiftUI
+import Observation
+
+@Observable class ApplicationData {
+   @ObservationIgnored let center = NotificationCenter.default
+   var scrollOffset: CGFloat = 0
+
+   init() {
+      Task(priority: .background) {
+         await receiveNotificationOpen()
+      }
+      Task(priority: .background) {
+         await receiveNotificationClose()
+      }
+   }
+   func receiveNotificationOpen() async {
+      let name = await UIWindow.keyboardDidShowNotification
+      for await _ in center.notifications(named: name, object: nil) {
+         await MainActor.run {
+            scrollOffset = -20
+         }
+      }
+   }
+   func receiveNotificationClose() async {
+      let name = await UIWindow.keyboardDidHideNotification
+      for await _ in center.notifications(named: name, object: nil) {
+         await MainActor.run {
+            scrollOffset = 0
+         }
+      }
+   }
+}

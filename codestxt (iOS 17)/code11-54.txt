@@ -1,0 +1,9 @@
+Button("Animate") {
+   let animation = Animation.bouncy
+      .delay(1)
+      .speed(2)
+      .repeatCount(3)
+   withAnimation(animation) {
+      boxScale = 2
+   }
+}

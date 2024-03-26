@@ -1,0 +1,7 @@
+struct ContentView: View {
+   @Environment(ApplicationData.self) private var appData
+
+   var body: some View {
+      Map(position: Bindable(appData).cameraPos, interactionModes: .zoom)
+   }
+}

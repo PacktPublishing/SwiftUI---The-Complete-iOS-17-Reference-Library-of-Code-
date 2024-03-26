@@ -1,0 +1,9 @@
+struct ContentView: View {
+   var body: some View {
+      Image(.toronto)
+         .resizable()
+         .scaledToFill()
+         .frame(width: 250, height: 100)
+         .clipped()
+   }
+}

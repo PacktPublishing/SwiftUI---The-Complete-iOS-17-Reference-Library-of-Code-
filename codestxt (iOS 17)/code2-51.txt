@@ -1,0 +1,6 @@
+var age = 19
+var message = if age < 21 {
+   "Underage"  // "Underage"
+} else {
+   "Allowed"
+}

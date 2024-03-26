@@ -1,0 +1,34 @@
+import SwiftUI
+import Observation
+import MapKit
+
+@Observable class ApplicationData: NSObject, CLLocationManagerDelegate {
+   var cameraPos: MapCameraPosition
+   var isAuthorized: Bool = false
+   @ObservationIgnored let manager = CLLocationManager()
+
+   override init() {
+      let coordinates = CLLocationCoordinate2D(latitude: 40.7637825011971, longitude: -73.9731328627541)
+      let region = MKCoordinateRegion(center: coordinates, latitudinalMeters: 1000, longitudinalMeters: 1000)
+      cameraPos = MapCameraPosition.region(region)
+
+      super.init()
+      manager.delegate = self
+   }
+   func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+      checkStatus()
+   }
+   func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+      checkStatus()
+   }
+   func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+      print("Error")
+   }
+   func checkStatus() {
+      if manager.authorizationStatus == .authorizedWhenInUse {
+         isAuthorized = true
+      } else if manager.authorizationStatus == .denied {
+         isAuthorized = false
+      }
+   }
+}

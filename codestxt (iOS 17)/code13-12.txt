@@ -1,0 +1,5 @@
+Map(position: Bindable(appData).cameraPos) {
+   MapCircle(center: coordinatesApple, radius: 100)
+      .foregroundStyle(.blue)
+      .mapOverlayLevel(level: .aboveLabels)
+}

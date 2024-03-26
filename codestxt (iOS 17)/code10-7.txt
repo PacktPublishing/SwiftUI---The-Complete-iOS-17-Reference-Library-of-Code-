@@ -1,0 +1,6 @@
+import SwiftUI
+import Observation
+
+@Observable class ApplicationData {
+   var viewPath = NavigationPath()
+}

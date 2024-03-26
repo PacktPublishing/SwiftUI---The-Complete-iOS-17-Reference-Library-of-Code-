@@ -1,0 +1,11 @@
+struct Price {
+   @ClampedValue var firstPrice: Int
+   @ClampedValue var secondPrice: Int
+
+   func printMessage() {
+      print("First Price: \(firstPrice)")  // "First Price: 0"
+      print("Second Price: \(secondPrice)")  // "Second Price: 255"
+   }
+}
+var purchase = Price(firstPrice: -42, secondPrice: 350)
+purchase.printMessage()

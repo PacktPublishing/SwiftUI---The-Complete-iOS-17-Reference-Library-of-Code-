@@ -1,0 +1,23 @@
+func sendNotification() async {
+   let listGroups = ["Group One", "Group Two"]
+
+   for group in listGroups {
+      for index in 1...3 {
+         let content = UNMutableNotificationContent()
+         content.title = "Reminder \(group)"
+         content.body = "\(index) - \(inputMessage)"
+         content.threadIdentifier = group
+
+         let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 10, repeats: false)
+
+         let id = "reminder-\(UUID())"
+         let request = UNNotificationRequest(identifier: id, content: content, trigger: trigger)
+         do {
+            let center = UNUserNotificationCenter.current()
+            try await center.add(request)
+         } catch {
+            print("Error: \(error)")
+         }
+      }
+   }
+}

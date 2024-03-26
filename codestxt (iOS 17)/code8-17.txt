@@ -1,0 +1,46 @@
+import SwiftUI
+
+struct Tokens: Identifiable, Equatable {
+   let id = UUID()
+   let name: String
+}
+struct ContentView: View {
+   @Environment(ApplicationData.self) private var appData
+   @State private var searchTerm: String = ""
+   @State private var searchTokens: [Tokens] = []
+
+   var body: some View {
+      NavigationStack {
+         List(appData.filteredItems) { book in
+            CellBook(book: book)
+         }.navigationTitle(Text("Books"))
+         .toolbar {
+            let list = appData.userData.map { $0.author }
+            let authors = Set(list).sorted()
+            Menu(content: {
+               ForEach(authors, id: \.self) { author in
+                  Button(author) {
+                     let token = Tokens(name: author)
+                     searchTokens = [token]
+                  }
+               }
+            }, label: {
+               Image(systemName: "pencil.circle")
+            })
+         }
+      }
+      .searchable(text: $searchTerm, tokens: $searchTokens, token: { token in
+         Text(token.name)
+      })
+      .onChange(of: searchTerm, initial: false) { _, _ in
+         performSearch()
+      }
+      .onChange(of: searchTokens, initial: false) { _, _ in
+         performSearch()
+      }
+   }
+   func performSearch() {
+      let search = searchTerm.trimmingCharacters(in: .whitespaces)
+      appData.filterValues(search: search, author: searchTokens.first?.name ?? "")
+   }
+}

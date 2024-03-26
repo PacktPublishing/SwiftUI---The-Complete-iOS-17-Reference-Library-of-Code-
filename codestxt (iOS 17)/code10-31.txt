@@ -1,0 +1,13 @@
+.onAppear {
+   let predicate = #Predicate<Book> { book in
+      book.author?.name == nil
+   }
+   let sort = SortDescriptor<Book>(\.title, order: .forward)
+
+   let descriptor = FetchDescriptor<Book>(predicate: predicate, sortBy: [sort])
+   if let list = try? dbContext.fetch(descriptor) {
+      for book in list {
+         print(book.title)
+      }
+   }
+}

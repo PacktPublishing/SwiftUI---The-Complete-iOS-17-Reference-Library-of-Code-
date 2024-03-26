@@ -1,0 +1,10 @@
+Button("Save") {
+   let tempName = nameInput.trimmingCharacters(in: .whitespaces)
+   let tempSurname = surnameInput.trimmingCharacters(in: .whitespaces)
+
+   if !tempName.isEmpty && !tempSurname.isEmpty {
+      title = tempName + " " + tempSurname
+      focusName = nil
+   }
+}
+.disabled(nameInput.isEmpty || surnameInput.isEmpty)

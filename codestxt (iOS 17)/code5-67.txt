@@ -1,0 +1,10 @@
+struct ContentView: View {
+   var body: some View {
+      ZStack(alignment: .center) {
+         Image(systemName: "cloud")
+            .font(.system(size: 80))
+         Text("New York")
+            .font(.body.bold())
+      }.foregroundColor(Color.red)
+   }
+}

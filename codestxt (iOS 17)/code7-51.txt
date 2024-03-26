@@ -1,0 +1,14 @@
+struct CompareBool: SortComparator {
+   typealias Compared = Bool
+   var order: SortOrder = .forward
+
+   func compare(_ lhs: Bool, _ rhs: Bool) -> ComparisonResult {
+      if lhs && !rhs {
+         return order == .forward ? .orderedAscending : .orderedDescending
+      } else if !lhs && rhs {
+         return order == .forward ? .orderedDescending : .orderedAscending
+      } else {
+         return .orderedSame
+      }
+   }
+}

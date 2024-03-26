@@ -1,0 +1,17 @@
+func storeBook() {
+   let title = titleInput.trimmingCharacters(in: .whitespaces)
+   if let year = Int(yearInput), !title.isEmpty {
+      if appData.selectedBook != nil {
+         appData.selectedBook?.title = title
+         appData.selectedBook?.year = year
+         appData.selectedBook?.author = appData.selectedAuthor
+      } else {
+         let cover = UIImage(named: "nocover")?.pngData()
+         let newBook = Book(title: title, author: appData.selectedAuthor, cover: cover, year: year)
+         dbContext.insert(newBook)
+      }
+      appData.selectedAuthor = nil
+      appData.selectedBook = nil
+      appData.viewPath.removeLast()
+   }
+}

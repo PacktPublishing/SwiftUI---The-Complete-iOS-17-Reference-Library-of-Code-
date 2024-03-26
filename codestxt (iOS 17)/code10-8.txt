@@ -1,0 +1,55 @@
+import SwiftUI
+import SwiftData
+
+struct ContentView: View {
+   @Environment(ApplicationData.self) private var appData
+   @Environment(\.modelContext) var dbContext
+   @Query var listBooks: [Book]
+
+   var body: some View {
+      NavigationStack(path: Bindable(appData).viewPath) {
+         List(listBooks) { book in
+            CellBook(book: book)
+         }
+         .listStyle(.plain)
+         .navigationTitle("Books")
+         .toolbarTitleDisplayMode(.inline)
+         .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+               NavigationLink(value: "Add Book", label: {
+                  Image(systemName: "plus")
+               })
+            }
+         }
+         .navigationDestination(for: String.self, destination: { viewID in
+            if viewID == "Add Book" {
+               AddBook()
+            }
+         })
+      }
+   }
+}
+struct CellBook: View {
+   let book: Book
+
+   var body: some View {
+      HStack(alignment: .top) {
+         Image(book.cover)
+            .resizable()
+            .scaledToFit()
+            .frame(width: 80, height: 100)
+         VStack(alignment: .leading, spacing: 2) {
+            Text(book.title).bold()
+            Text(book.author)
+            Text(book.displayYear).font(.caption)
+            Spacer()
+         }
+         Spacer()
+      }.padding([.top], 10)
+   }
+}
+#Preview {
+   ContentView()
+      .environment(ApplicationData())
+      .modelContainer(for: [Book.self], inMemory: true)
+}

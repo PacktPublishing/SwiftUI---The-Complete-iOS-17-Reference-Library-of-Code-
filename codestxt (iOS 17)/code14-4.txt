@@ -1,0 +1,8 @@
+func addValue(title: String) {
+   appData.titles.append(title)
+
+   let center = NotificationCenter.default
+   let name = Notification.Name("Update Data")
+   let info = ["type": title]
+   center.post(name: name, object: nil, userInfo: info)
+}

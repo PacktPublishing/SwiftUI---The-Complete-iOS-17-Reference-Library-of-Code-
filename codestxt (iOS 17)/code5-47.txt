@@ -1,0 +1,10 @@
+struct ContentView: View {
+   var body: some View {
+      Image(.toronto)
+         .resizable()
+         .scaledToFit()
+         .cornerRadius(25)
+         .padding(20)
+         .shadow(color: Color.black, radius: 5, x: 5, y: 5)
+   }
+}

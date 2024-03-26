@@ -1,0 +1,13 @@
+struct ContentView: View {
+   @Environment(ApplicationData.self) private var appData
+
+   var body: some View {
+      VStack {
+         Chart(appData.listOfItems) { item in
+            LineMark(x: .value("Name", item.name), y: .value("Calories", item.calories))
+        }.frame(height: 300)
+         .padding()
+         Spacer()
+      }
+   }
+}

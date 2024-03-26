@@ -1,0 +1,23 @@
+struct SettingsView: View {
+   @Binding var viewPath: NavigationPath
+   
+   var body: some View {
+      VStack {
+         Text("My Settings")
+         Spacer()
+      }.padding()
+      .navigationBarBackButtonHidden(true)
+      .toolbar {
+         ToolbarItem(placement: .navigationBarLeading) {
+            Button("Go Back") {
+               viewPath.removeLast()
+            }
+         }
+      }
+   }
+}
+#Preview {
+   NavigationStack {
+      SettingsView(viewPath: .constant(NavigationPath()))
+   }
+}

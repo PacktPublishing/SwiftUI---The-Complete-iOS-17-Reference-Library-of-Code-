@@ -1,0 +1,32 @@
+struct PictureView: View {
+   @Environment(ApplicationData.self) private var appData
+
+   var body: some View {
+      VStack {
+         Image(appData.selectedBook?.cover ?? "nopicture")
+            .resizable()
+            .scaledToFit()
+         Spacer()
+      }
+      .navigationTitle(Text("Cover"))
+      .navigationBarBackButtonHidden()
+      .toolbar {
+         ToolbarItem(placement: .navigationBarLeading) {
+            Button("Go Back") {
+               appData.viewPath.removeLast()
+            }
+         }
+         ToolbarItem(placement: .navigationBarTrailing) {
+            Button("Back to List") {
+               appData.viewPath = NavigationPath()
+            }
+         }
+      }
+   }
+}
+#Preview {
+   NavigationStack {
+      PictureView()
+         .environment(ApplicationData())
+  }
+}

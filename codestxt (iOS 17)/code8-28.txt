@@ -1,0 +1,25 @@
+struct ContentView: View {
+   @Environment(ApplicationData.self) private var appData
+
+   var body: some View {
+      NavigationStack(path: Bindable(appData).viewPath) {
+         List(appData.userData) { book in
+            NavigationLink(value: book, label: {
+               CellBook(book: book)
+            })
+         }
+         .navigationTitle(Text("Books"))
+         .navigationBarTitleDisplayMode(.inline)
+         .navigationDestination(for: Book.self, destination: { book in
+            DetailView(book: book)
+         })
+         .navigationDestination(for: String.self, destination: { viewID in
+            if viewID == "Settings View" {
+               SettingsView()
+            } else if viewID == "Picture View" {
+               PictureView()
+            }
+         })
+      }
+   }
+}

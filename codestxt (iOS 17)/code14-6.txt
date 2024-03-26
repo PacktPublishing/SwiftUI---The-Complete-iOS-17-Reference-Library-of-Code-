@@ -1,0 +1,8 @@
+init() {
+   let myTask = Task(priority: .background) {
+      await readNotifications()
+   }
+   Timer.scheduledTimer(withTimeInterval: 20, repeats: false) { timer in
+      myTask.cancel()
+   }
+}

@@ -1,0 +1,19 @@
+import SwiftUI
+
+@main
+struct TestApp: App {
+   @Environment(\.scenePhase) var scenePhase
+
+   var body: some Scene {
+      WindowGroup {
+         ContentView()
+            .onChange(of: scenePhase, initial: false) { old, phase in
+               if phase == .active {
+                  print("The app is active")
+               } else if phase == .background {
+                  print("The app is in the background")
+               }
+            }
+      }
+   }
+}

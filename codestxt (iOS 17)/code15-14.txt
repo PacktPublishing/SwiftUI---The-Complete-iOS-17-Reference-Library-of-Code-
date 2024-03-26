@@ -1,0 +1,29 @@
+@MainActor
+func updateFiles(notification: NotificationWrapper) {
+   metaData.disableUpdates()
+
+   let manager = FileManager.default
+   if let modifications = notification.value.userInfo {
+      if let removed = modifications[NSMetadataQueryUpdateRemovedItemsKey] as? [NSMetadataItem] {
+         for item in removed {
+            let name = item.value(forAttribute: NSMetadataItemFSNameKey) as! String
+            if let index = listOfFiles.firstIndex(where: { $0.name == name }) {
+               listOfFiles.remove(at: index)
+            }
+         }
+      }
+      if let added = modifications[NSMetadataQueryUpdateAddedItemsKey] as? [NSMetadataItem] {
+         for item in added {
+            let name = item.value(forAttribute: NSMetadataItemFSNameKey) as! String
+            if !listOfFiles.contains(where: { $0.name == name }) {
+               if let fileURL = manager.url(forUbiquityContainerIdentifier: nil) {
+                  let documentURL = fileURL.appendingPathComponent("Documents/\(name)")
+                  listOfFiles.append(FileInfo(name: name, url: documentURL))
+               }
+            }
+         }
+         listOfFiles.sort(by: { $0.name < $1.name })
+      }
+   }
+   metaData.enableUpdates()
+}

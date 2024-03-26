@@ -1,0 +1,15 @@
+struct ContentView: View {
+   let listCities: [String] = ["Paris", "Toronto", "Dublin"]
+
+   var body: some View {
+      VStack {
+         ForEach(listCities, id: \.self) { value in
+            VStack {
+               Text(value)
+               Divider()
+            }
+         }
+         Spacer()
+      }
+   }
+}

@@ -1,0 +1,24 @@
+import SwiftUI
+import Observation
+
+@Observable class ApplicationData {
+   @ObservationIgnored var document: MyDocument!
+   @ObservationIgnored var metaData: NSMetadataQuery!
+
+   init() {
+      metaData = NSMetadataQuery()
+      metaData.predicate = NSPredicate(format: "%K == %@", NSMetadataItemFSNameKey, "myfile.dat")
+      metaData.searchScopes = [NSMetadataQueryUbiquitousDocumentsScope]
+
+      Task(priority: .high) {
+         let center = NotificationCenter.default
+         let name = NSNotification.Name.NSMetadataQueryDidFinishGathering
+         for await notification in center.notifications(named: name, object: metaData) {
+            if notification.name == name {
+               await createFile()
+            }
+         }
+      }
+      metaData.start()
+   }
+}

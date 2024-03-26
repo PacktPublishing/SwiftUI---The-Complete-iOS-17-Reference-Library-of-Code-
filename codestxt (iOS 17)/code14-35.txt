@@ -1,0 +1,13 @@
+import SwiftUI
+
+struct ContentView: View {
+   @Environment(ApplicationData.self) private var appData
+
+   var body: some View {
+      Text(appData.maintext)
+         .padding()
+   }
+}
+#Preview {
+   ContentView().environment(ApplicationData.shared)
+}

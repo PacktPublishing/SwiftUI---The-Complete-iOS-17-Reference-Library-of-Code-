@@ -1,0 +1,5 @@
+struct ContentView: View {
+   var body: some View {
+      WebView(searchURL: URL(string: "https://www.google.com")!)
+   }
+}

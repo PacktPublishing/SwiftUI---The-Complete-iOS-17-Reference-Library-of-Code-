@@ -1,0 +1,3 @@
+struct Product: @unchecked Sendable {
+   let name: NSString
+}

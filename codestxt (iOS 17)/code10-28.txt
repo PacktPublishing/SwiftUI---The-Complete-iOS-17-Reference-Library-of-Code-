@@ -1,0 +1,3 @@
+@Query(filter: #Predicate<Book> {
+   $0.author?.name.localizedStandardContains("Stephen") == true
+}) private var listBooks: [Book]

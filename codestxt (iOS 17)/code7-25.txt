@@ -1,0 +1,18 @@
+struct ContentView: View {
+   @Environment(ApplicationData.self) private var appData
+
+   var body: some View {
+      List {
+         HStack {
+            Image(systemName: "book.circle")
+               .font(.largeTitle)
+            Spacer()
+            Text("My Favorite Books")
+               .font(.headline)
+         }.frame(height: 50)
+         ForEach(appData.userData) { book in
+            CellBook(book: book)
+         }
+      }.listStyle(.plain)
+   }
+}

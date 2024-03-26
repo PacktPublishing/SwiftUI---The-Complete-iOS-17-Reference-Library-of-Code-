@@ -1,0 +1,1 @@
+@Relationship(deleteRule: .nullify, inverse: \Author.books) var author: Author?

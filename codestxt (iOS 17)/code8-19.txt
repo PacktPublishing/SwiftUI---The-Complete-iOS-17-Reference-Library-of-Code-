@@ -1,0 +1,18 @@
+struct ContentView: View {
+   @Environment(ApplicationData.self) private var appData
+
+   var body: some View {
+      NavigationStack {
+         List(appData.userData) { book in
+            CellBook(book: book)
+         }.navigationTitle(Text("Books"))
+         .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+               NavigationLink(destination: SettingsView(), label: {
+                  Image(systemName: "gearshape")
+               })
+            }
+         }
+      }
+   }
+}

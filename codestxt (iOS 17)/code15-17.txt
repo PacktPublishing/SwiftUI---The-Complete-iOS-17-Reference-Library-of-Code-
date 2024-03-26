@@ -1,0 +1,33 @@
+struct ContentView: View {
+   @Environment(ApplicationData.self) private var appData
+   @State private var openSheet: Bool = false
+
+   var body: some View {
+      NavigationStack {
+         List {
+            ForEach(appData.listOfFiles) { file in
+               NavigationLink(destination: EditDocumentView(selectedFile: file)) {
+                  Text(file.name)
+               }
+            }
+            .onDelete { indexes in
+               Task(priority: .background) {
+                  await appData.removeFiles(indexes: indexes)
+               }
+            }
+         }
+         .navigationBarTitle("List of Files")
+         .navigationBarTitleDisplayMode(.inline)
+         .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+               Button("Create File") {
+                  openSheet = true
+               }
+            }
+         }
+         .sheet(isPresented: $openSheet) {
+            CreateFileView()
+         }
+      }
+   }
+}

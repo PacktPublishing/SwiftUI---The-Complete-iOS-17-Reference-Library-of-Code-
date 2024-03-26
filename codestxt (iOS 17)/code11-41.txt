@@ -1,0 +1,14 @@
+struct ContentView: View {
+   @Environment(ApplicationData.self) private var appData
+
+   var body: some View {
+      VStack {
+         Chart(appData.listOfItems) { item in
+            SectorMark(angle: .value("Value", item.calories))
+               .foregroundStyle(by: .value("Product category", item.name))
+         }.frame(height: 300)
+         .padding()
+         Spacer()
+      }
+   }
+}

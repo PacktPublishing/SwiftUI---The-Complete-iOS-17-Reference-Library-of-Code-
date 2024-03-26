@@ -1,0 +1,41 @@
+@Model
+class Author: Identifiable {
+   @Attribute(.unique) var id: UUID = UUID()
+   var name: String = ""
+   @Relationship(deleteRule: .nullify) var books: [Book]? = []
+   var info: Data?
+   
+   init(name: String, books: [Book], info: Data?) {
+      self.name = name
+      self.books = books
+      self.info = info
+   }
+   var listBooks: [Book] {
+      get {
+         if let books = self.books, !books.isEmpty {
+            let sortList = books.sorted(by: { $0.title < $1.title })
+            return sortList
+         } else {
+            return []
+         }
+      }
+   }
+   var showBirthday: String? {
+      let decoder = PropertyListDecoder()
+      if let info, let authorInfo = try? decoder.decode(AuthorInfo.self, from: info) {
+         if let date = authorInfo.birthday, date < Date() {
+            return authorInfo.birthday?.formatted(date: .abbreviated, time: .omitted)
+         }
+      }
+      return nil
+   }
+   var showPlaceOfBirth: String? {
+      let decoder = PropertyListDecoder()
+      if let info, let authorInfo = try? decoder.decode(AuthorInfo.self, from: info) {
+         if !authorInfo.placeOfBirth.isEmpty {
+            return authorInfo.placeOfBirth
+         }
+      }
+      return nil
+   }
+}

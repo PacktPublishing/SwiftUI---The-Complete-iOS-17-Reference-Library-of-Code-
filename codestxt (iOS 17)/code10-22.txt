@@ -1,0 +1,10 @@
+List {
+   ForEach(listBooks) { book in
+      CellBook(book: book)
+   }
+   .onDelete { indexes in
+      for index in indexes {
+         dbContext.delete(listBooks[index])
+      }
+   }
+}

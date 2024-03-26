@@ -1,0 +1,10 @@
+struct ContentView: View {
+   var body: some View {
+      Text("Hello World")
+         .foregroundColor(Color("MyColor"))
+   }
+}
+#Preview {
+   ContentView()
+      .environment(\.colorScheme, .dark)
+}

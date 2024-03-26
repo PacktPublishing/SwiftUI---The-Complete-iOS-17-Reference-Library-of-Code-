@@ -1,0 +1,15 @@
+struct ContentView: View {
+   @Environment(ApplicationData.self) private var appData
+
+   var body: some View {
+      ScrollView(.horizontal, showsIndicators: false) {
+         LazyHStack(spacing: 0) {
+            ForEach(appData.userData) { book in
+               CellBook(book: book)
+                  .containerRelativeFrame(.horizontal, count: 2, span: 1, spacing: 0)
+            }
+         }
+     }
+     .scrollTargetBehavior(.paging)
+   }
+}

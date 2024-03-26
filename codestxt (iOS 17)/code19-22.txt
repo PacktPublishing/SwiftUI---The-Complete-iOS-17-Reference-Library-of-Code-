@@ -1,0 +1,15 @@
+struct DetailView: View {
+   @Environment(ApplicationData.self) private var appData
+
+   var body: some View {
+      List {
+         ForEach(appData.foodList, id: \.self) { item in
+            Text(item)
+         }
+      }
+      .navigationTitle("Food List")
+      #if os(macOS)
+      .alternatingRowBackgrounds()
+      #endif
+   }
+}

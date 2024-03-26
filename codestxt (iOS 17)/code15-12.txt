@@ -1,0 +1,42 @@
+import SwiftUI
+import Observation
+
+struct NotificationWrapper: @unchecked Sendable {
+   let value: Notification
+}
+struct FileInfo: Identifiable {
+   let id: UUID = UUID()
+   var name: String
+   var url: URL
+}
+@Observable class ApplicationData {
+   var listOfFiles: [FileInfo] = []
+   @ObservationIgnored var document: MyDocument!
+   @ObservationIgnored var metaData: NSMetadataQuery!
+
+   init() {
+      metaData = NSMetadataQuery()
+      metaData.searchScopes = [NSMetadataQueryUbiquitousDocumentsScope]
+
+      Task(priority: .high) {
+         let center = NotificationCenter.default
+         let name = NSNotification.Name.NSMetadataQueryDidFinishGathering
+         for await notification in center.notifications(named: name, object: metaData) {
+            if notification.name == name {
+               await getFiles()
+            }
+         }
+      }
+      Task(priority: .high) {
+         let center = NotificationCenter.default
+         let name = NSNotification.Name.NSMetadataQueryDidUpdate
+         for await notification in center.notifications(named: name, object: metaData) {
+            if notification.name == name {
+               let wrapper = NotificationWrapper(value: notification)
+               await updateFiles(notification: wrapper)
+            }
+         }
+      }
+      metaData.start()
+   }
+}

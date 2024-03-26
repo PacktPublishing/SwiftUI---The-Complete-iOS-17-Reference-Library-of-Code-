@@ -1,0 +1,14 @@
+struct ContentView: View {
+   @State private var isActive = false
+
+   var body: some View {
+      VStack(spacing: 10) {
+         Image(systemName: "dot.radiowaves.forward")
+            .font(.largeTitle)
+            .symbolEffect(.variableColor.iterative, options: .nonRepeating, isActive: isActive)
+         Button("Animate") {
+            isActive.toggle()
+         }
+      }
+   }
+}

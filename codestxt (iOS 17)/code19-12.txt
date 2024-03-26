@@ -1,0 +1,3 @@
+@Observable class ApplicationData {
+   var inputMessage: String = ""
+}

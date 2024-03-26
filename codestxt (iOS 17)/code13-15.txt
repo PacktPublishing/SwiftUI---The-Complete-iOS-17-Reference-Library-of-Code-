@@ -1,0 +1,39 @@
+struct ContentView: View {
+   @Environment(ApplicationData.self) private var appData
+   
+   var body: some View {
+      Map(position: Bindable(appData).cameraPos) {
+         ForEach(appData.listLocations) { place in
+            Marker(place.name, coordinate: place.location)
+         }
+      }
+      .onMapCameraChange(frequency: .onEnd) { context in
+         appData.cameraPos = .region(context.region)
+         Task(priority: .background) {
+            await findPlaces()
+         }
+      }
+   }
+   func findPlaces() async {
+      if let region = appData.cameraPos.region {
+         let request = MKLocalSearch.Request()
+         request.naturalLanguageQuery = "Pizza"
+         request.region = region
+
+         let search = MKLocalSearch(request: request)
+         if let results = try? await search.start() {
+            let items = results.mapItems
+            
+            await MainActor.run {
+               appData.listLocations = []
+               for item in items {
+                  if let location = item.placemark.location?.coordinate {
+                     let place = PlaceMarker(id: UUID(), name: item.name ?? "Undefined", location: location)
+                     appData.listLocations.append(place)
+                  }
+               }
+            }
+         }
+      }
+   }
+}

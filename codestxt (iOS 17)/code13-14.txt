@@ -1,0 +1,25 @@
+import SwiftUI
+import Observation
+import MapKit
+
+struct PlaceMarker: Identifiable {
+   var id: UUID
+   var name: String
+   var location: CLLocationCoordinate2D
+   
+   init(id: UUID, name: String, location: CLLocationCoordinate2D) {
+      self.id = id
+      self.name = name
+      self.location = location
+   }
+}
+@Observable class ApplicationData {
+   var cameraPos: MapCameraPosition
+   var listLocations: [PlaceMarker] = []
+
+   init() {
+      let coordinates = CLLocationCoordinate2D(latitude: 40.7637825011971, longitude: -73.9731328627541)
+      let region = MKCoordinateRegion(center: coordinates, latitudinalMeters: 1000, longitudinalMeters: 1000)
+      cameraPos = MapCameraPosition.region(region)
+   }
+}

@@ -1,0 +1,19 @@
+struct ContentView: View {
+   @Environment(ApplicationData.self) private var appData
+
+   var body: some View {
+      VStack {
+         EditButton()
+         List {
+            ForEach(appData.userData) { book in
+               CellBook(book: book)
+            }.onDelete { indexes in
+               appData.userData.remove(atOffsets: indexes)
+            }
+            .onMove { source, destination in
+               appData.userData.move(fromOffsets: source, toOffset: destination)
+            }
+         }.listStyle(.plain)
+      }
+   }
+}

@@ -1,0 +1,22 @@
+struct ContentView: View {
+   @Environment(ApplicationData.self) private var appData
+
+   var body: some View {
+      NavigationStack {
+         List(appData.userData) { book in
+            CellBook(book: book)
+         }
+         .navigationTitle(Text("Books"))
+         .toolbar(.hidden, for: .navigationBar)
+         .toolbar {
+            ToolbarItem(placement: .bottomBar) {
+               HStack {
+                  Button("Show") {
+                     print("Show Values")
+                  }
+               }.frame(minWidth: 0, maxWidth: .infinity, alignment: .trailing)
+            }
+         }
+      }
+   }
+}

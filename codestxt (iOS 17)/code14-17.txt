@@ -1,0 +1,14 @@
+import SwiftUI
+import UserNotifications
+import Observation
+
+@Observable class ApplicationData: NSObject, UNUserNotificationCenterDelegate {
+   override init() {
+      super.init()
+      let center = UNUserNotificationCenter.current()
+      center.delegate = self
+   }
+   func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification) async -> UNNotificationPresentationOptions {
+      return [.banner]
+   }
+}

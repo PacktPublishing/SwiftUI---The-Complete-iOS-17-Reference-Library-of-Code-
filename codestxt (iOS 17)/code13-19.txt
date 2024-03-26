@@ -1,0 +1,33 @@
+struct ContentView: View {
+   @Environment(ApplicationData.self) private var appData
+   @State private var openView: Bool = false
+   @State private var lookScene: MKLookAroundScene?
+
+   var body: some View {
+      Map(position: Bindable(appData).cameraPos)
+         .safeAreaInset(edge: .bottom) {
+            if openView {
+               VStack {
+                  LookAroundPreview(initialScene: lookScene)
+                     .frame(height: 200)
+                     .padding()
+                  Button("Hide Street") {
+                     openView = false
+                  }.buttonStyle(.borderedProminent)
+               }
+            } else {
+               Button("Show Street") {
+                  if let region = appData.cameraPos.region {
+                     Task {
+                        let request = MKLookAroundSceneRequest(coordinate: region.center)
+                        if let scene = try? await request.scene {
+                           lookScene = scene
+                           openView = true
+                        }
+                     }
+                  }
+               }.buttonStyle(.borderedProminent)
+            }
+         }
+   }
+}

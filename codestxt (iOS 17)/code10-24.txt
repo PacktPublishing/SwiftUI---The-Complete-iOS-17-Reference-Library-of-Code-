@@ -1,0 +1,1 @@
+@Query(sort: [SortDescriptor(\Book.title, order: .forward)]) private var listBooks: [Book]

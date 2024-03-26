@@ -1,0 +1,24 @@
+struct ContentView: View {
+   @Environment(ApplicationData.self) private var appData
+   @State private var searchTerm: String = ""
+
+   var body: some View {
+      NavigationStack {
+         List(appData.filteredItems) { book in
+            CellBook(book: book)
+         }
+         .navigationTitle(Text("Books"))
+      }
+      .searchable(text: $searchTerm, prompt: Text("Insert title"))
+      .onSubmit(of: .search) { performSearch() }
+      .onChange(of: searchTerm, initial: false) { old, value in
+         if value.isEmpty {
+            performSearch()
+         }
+      }
+   }
+   func performSearch() {
+      let search = searchTerm.trimmingCharacters(in: .whitespaces)
+      appData.filterValues(search: search)
+   }
+}

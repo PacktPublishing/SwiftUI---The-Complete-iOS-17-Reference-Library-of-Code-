@@ -1,0 +1,14 @@
+struct ContentView: View {
+   @Environment(ApplicationData.self) private var appData
+
+   var body: some View {
+      NavigationStack {
+         List(appData.userData) { book in
+            CellBook(book: book)
+         }
+         .listStyle(.plain)
+         .navigationTitle(Text("Books"))
+         .navigationBarTitleDisplayMode(.inline)
+      }
+   }
+}

@@ -1,0 +1,4 @@
+.inspector(isPresented: $presentInspector) {
+   InspectorView()
+      .inspectorColumnWidth(min: 200, ideal: 250, max: 300)
+}

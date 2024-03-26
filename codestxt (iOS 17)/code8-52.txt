@@ -1,0 +1,18 @@
+import SwiftUI
+
+struct SettingsView: View {
+   @Environment(ApplicationData.self) private var appData
+
+   var body: some View {
+      Form {
+         Section(header: Text("Settings"), footer: Text("Select what you want to see")) {
+            Toggle("Show Pictures", isOn: Bindable(appData).showPictures)
+            Toggle("Show Year", isOn: Bindable(appData).showYear)
+         }
+      }
+   }
+}
+#Preview {
+   SettingsView()
+      .environment(ApplicationData())
+}

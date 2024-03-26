@@ -1,0 +1,15 @@
+struct ContentView: View {
+   @Environment(ApplicationData.self) private var appData
+
+   var body: some View {
+      VStack {
+         TextField("Insert your Name", text: Bindable(appData).inputMessage)
+            .padding()
+         TextField("Insert Address", text: Bindable(appData).inputAddress)
+            .padding([.leading, .trailing])
+            .focusedValue(\.address, appData.inputAddress)
+         Spacer()
+      }.padding()
+      .frame(width: 500, height: 350)
+   }
+}

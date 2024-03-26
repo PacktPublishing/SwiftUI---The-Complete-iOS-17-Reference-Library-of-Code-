@@ -1,0 +1,16 @@
+class Employee {
+   var name: String
+   var age: Int
+
+   static let shared = Employee(newName: "Undefined", newAge: 0)
+
+   private init(newName: String, newAge: Int) {
+      name = newName
+      age = newAge
+   }
+}
+let employee1 = Employee.shared
+let employee2 = Employee.shared
+employee1.name = "George"
+
+print("\(employee1.name) - \(employee2.name)")  // "George - George"

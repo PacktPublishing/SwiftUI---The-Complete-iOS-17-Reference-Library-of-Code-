@@ -1,0 +1,7 @@
+func loadImage(name: String) async {
+   let result: String = await MainActor.run {
+      myText = name
+      return "Name: \(name)"
+   }
+   print(result)
+}

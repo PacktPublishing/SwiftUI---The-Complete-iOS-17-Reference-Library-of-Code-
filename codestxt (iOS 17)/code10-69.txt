@@ -1,0 +1,14 @@
+func deleteFile(index: Int) {
+   let file = listOfFiles[index]
+   let name = file.name
+
+   if let docURL = directories?.first {
+      let fileURL = docURL.appendingPathComponent(name)
+      do {
+         try manager.removeItem(atPath: fileURL.path)
+         listOfFiles.remove(at: index)
+      } catch {
+         print("File was not removed")
+      }
+   }
+}

@@ -1,0 +1,17 @@
+struct ContentView: View {
+   @Environment(ApplicationData.self) private var appData
+   @State private var selectedFood: String? = nil
+
+   var body: some View {
+      VStack {
+         Chart(appData.listOfItems) { item in
+            BarMark(x: .value("Name", item.name), y: .value("Calories", item.calories))
+               .foregroundStyle(item.name == selectedFood ? .yellow : .blue)
+         }
+         .frame(height: 300)
+         .padding()
+         .chartXSelection(value: $selectedFood)
+         Spacer()
+      }
+   }
+}

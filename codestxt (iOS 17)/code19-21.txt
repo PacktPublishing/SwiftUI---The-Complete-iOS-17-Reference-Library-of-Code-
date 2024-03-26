@@ -1,0 +1,10 @@
+import SwiftUI
+import Observation
+
+@Observable class ApplicationData {
+   var foodList: [String]
+
+   init() {
+      foodList = ["bagels", "brownies", "butter", "cheese", "coffee", "cookies", "donuts", "granola", "juice", "lemonade", "lettuce", "milk", "oatmeal", "potato", "tomato", "yogurt"]
+   }
+}

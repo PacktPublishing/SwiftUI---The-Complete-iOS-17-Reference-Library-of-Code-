@@ -1,0 +1,4 @@
+Image(uiImage: book.displayCover)
+   .resizable()
+   .scaledToFit()
+   .frame(width: 100)

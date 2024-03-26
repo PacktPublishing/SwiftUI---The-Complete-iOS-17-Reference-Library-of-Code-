@@ -1,0 +1,33 @@
+import SwiftUI
+
+enum Scopes {
+   case title, author
+}
+struct ContentView: View {
+   @Environment(ApplicationData.self) private var appData
+   @State private var searchTerm: String = ""
+   @State private var searchScope: Scopes = .title
+
+   var body: some View {
+      NavigationStack {
+         List(appData.filteredItems) { book in
+            CellBook(book: book)
+         }.navigationTitle(Text("Books"))
+      }
+      .searchable(text: $searchTerm, prompt: Text("Insert title"))
+      .searchScopes($searchScope, scopes: {
+         Text("Title").tag(Scopes.title)
+         Text("Author").tag(Scopes.author)
+      })
+      .onChange(of: searchTerm, initial: false) { _, _ in
+         performSearch()
+      }
+      .onChange(of: searchScope, initial: false) { _, _ in
+         performSearch()
+      }
+   }
+   func performSearch() {
+      let search = searchTerm.trimmingCharacters(in: .whitespaces)
+      appData.filterValues(search: search, scope: searchScope)
+   }
+}

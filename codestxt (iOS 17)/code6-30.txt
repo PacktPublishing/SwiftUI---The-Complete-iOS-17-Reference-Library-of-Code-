@@ -1,0 +1,11 @@
+struct ContentView: View {
+   @State private var text: String = ""
+
+   var body: some View {
+      TextEditor(text: $text)
+         .multilineTextAlignment(.leading)
+         .lineSpacing(10)
+         .autocorrectionDisabled(true)
+         .padding(8)
+   }
+}

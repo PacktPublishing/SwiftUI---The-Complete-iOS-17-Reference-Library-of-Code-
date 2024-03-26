@@ -1,0 +1,20 @@
+import SwiftUI
+import UserNotifications
+import Observation
+
+@Observable class ApplicationData: NSObject, UNUserNotificationCenterDelegate {
+   override init() {
+      super.init()
+      let center = UNUserNotificationCenter.current()
+      center.delegate = self
+   }
+   @MainActor
+   func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse) async {
+      let identifier = response.actionIdentifier
+      if identifier == "deleteButton" {
+         print("Delete Message")
+      } else if identifier == "inputField" {
+         print("Send: \((response as! UNTextInputNotificationResponse).userText)")
+      }
+   }
+}

@@ -1,0 +1,22 @@
+struct ContentView: View {
+   @Environment(ApplicationData.self) private var appData
+   @State private var showSheet: Bool = false
+
+   var body: some View {
+      NavigationStack {
+         List(appData.userData) { book in
+            CellBook(book: book)
+         }.navigationTitle(Text("Books"))
+         .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+               Button(action: {
+                  showSheet = true
+               }, label: { Image(systemName: "plus") })
+            }
+         }
+         .sheet(isPresented: $showSheet) {
+            AddBookView()
+         }
+      }
+   }
+}

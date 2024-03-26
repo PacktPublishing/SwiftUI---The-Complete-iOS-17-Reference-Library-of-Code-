@@ -1,0 +1,13 @@
+struct ContentView: View {
+   @Environment(ApplicationData.self) private var appData
+
+   var body: some View {
+      List {
+         ForEach(appData.userData) { book in
+            CellBook(book: book)
+         }.onDelete { indexes in
+            appData.userData.remove(atOffsets: indexes)
+         }
+      }
+   }
+}

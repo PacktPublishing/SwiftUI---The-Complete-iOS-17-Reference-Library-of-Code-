@@ -1,0 +1,20 @@
+struct ContentView: View {
+   @Environment(ApplicationData.self) private var appData
+
+   var body: some View {
+      Map(position: Bindable(appData).cameraPos)
+         .safeAreaInset(edge: .bottom) {
+            HStack {
+               if let region = appData.cameraPos.region {
+                  Text(String(region.center.latitude))
+                  Text(String(region.center.longitude))
+               }
+            }.padding([.top, .bottom])
+            .frame(minWidth: 0, maxWidth: .infinity)
+            .background(.white)
+         }
+         .onMapCameraChange { context in
+            appData.cameraPos = .region(context.region)
+         }
+   }
+}

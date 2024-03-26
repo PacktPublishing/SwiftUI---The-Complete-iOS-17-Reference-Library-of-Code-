@@ -1,0 +1,6 @@
+#Preview("My iPhone", traits: .landscapeLeft) {
+    ContentView()
+}
+#Preview("My Second iPhone") {
+    SecondView()
+}

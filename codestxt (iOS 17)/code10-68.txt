@@ -1,0 +1,25 @@
+import SwiftUI
+
+struct ShowFile: View {
+   @Environment(ApplicationData.self) private var appData
+   @State private var imageContent: UIImage?
+   let file: File
+
+   var body: some View {
+      VStack {
+         Text(file.name)
+         Image(uiImage: imageContent ?? UIImage(named: "nopicture")!)
+            .resizable()
+            .scaledToFit()
+         Spacer()
+      }.padding(.horizontal)
+      .toolbarTitleDisplayMode(.inline)
+      .task {
+         imageContent = appData.loadFile(name: file.name)
+      }
+   }
+}
+#Preview {
+   ShowFile(file: File(name: "Test File"))
+      .environment(ApplicationData())
+}

@@ -1,0 +1,28 @@
+import SwiftUI
+
+struct PictureView: View {
+   @Environment(\.horizontalSizeClass) var horizontal
+   let book: Book
+
+   var body: some View {
+      VStack {
+         if horizontal == .regular {
+            Image(book.cover)
+               .resizable()
+               .scaledToFit()
+               .padding([.top, .bottom], 20)
+               .padding([.leading, .trailing], 50)
+         } else {
+            Image(book.cover)
+               .resizable()
+               .scaledToFit()
+         }
+         Spacer()
+      }.navigationBarTitleDisplayMode(.inline)
+   }
+}
+#Preview {
+   NavigationStack {
+      PictureView(book: ApplicationData().userData[0])
+   }
+}

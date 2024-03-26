@@ -1,0 +1,10 @@
+.toolbar {
+   ToolbarItem(placement: .automatic) {
+      Button(action: {
+         print("Adding Book")
+      }, label: {
+         Label("Add Book", systemImage: "plus")
+      })
+      .help("Press this button to add a book")
+   }
+}

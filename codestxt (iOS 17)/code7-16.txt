@@ -1,0 +1,5 @@
+.scrollTransition(axis: .horizontal) { effect, phase in
+   effect
+      .opacity(phase.isIdentity ? 1 : 0)
+      .scaleEffect(phase.isIdentity ? 1 : 0.5)
+}

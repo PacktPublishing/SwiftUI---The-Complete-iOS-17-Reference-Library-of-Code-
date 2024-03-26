@@ -1,0 +1,6 @@
+import SwiftUI
+
+struct AuthorInfo: Codable {
+   var birthday: Date?
+   var placeOfBirth: String = ""
+}

@@ -1,0 +1,1 @@
+@Query(filter: #Predicate<Book> { $0.year == 1986 }) private var listBooks: [Book]

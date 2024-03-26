@@ -1,0 +1,35 @@
+struct File: Identifiable, Hashable {
+   let id: UUID = UUID()
+   var name: String
+}
+@Observable class ApplicationData {
+   var listOfFiles: [File] = []
+   @ObservationIgnored let manager: FileManager
+   @ObservationIgnored let directories: [URL]?
+
+   init() {
+      manager = FileManager.default
+      directories = manager.urls(for: .documentDirectory, in: .userDomainMask)
+      if let docURL = directories?.first {
+         if let list = try? manager.contentsOfDirectory(atPath: docURL.path) {
+            for name in list {
+               let newFile = File(name: name)
+               listOfFiles.append(newFile)
+            }
+         }
+      }
+   }
+   func saveFile(name: String) {
+      if let docURL = directories?.first {
+         let newFileURL = docURL.appendingPathComponent(name)
+         let path = newFileURL.path
+
+         if let contentData = UIImage(named: "husky")?.pngData() {
+            if manager.createFile(atPath: path, contents: contentData, attributes: nil) {
+               let newFile = File(name: name)
+               listOfFiles.append(newFile)
+            }
+         }
+      }
+   }
+}

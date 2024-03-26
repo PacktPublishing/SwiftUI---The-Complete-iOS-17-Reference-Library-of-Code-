@@ -1,0 +1,13 @@
+struct ContentView: View {
+   @Environment(ApplicationData.self) private var appData
+
+   var body: some View {
+      Table(appData.listOfItems) {
+         TableColumn("Name", value: \.name)
+         TableColumn("Category", value: \.category)
+         TableColumn("Calories") { item in
+            Text("\(item.calories)")
+         }.width(100)
+      }
+   }
+}

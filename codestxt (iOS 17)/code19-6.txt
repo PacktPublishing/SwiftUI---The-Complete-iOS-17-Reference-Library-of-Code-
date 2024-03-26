@@ -1,0 +1,7 @@
+.commands {
+   CommandGroup(after: .newItem, addition: {
+      Button("Option 1") {
+         print("This is option 1")
+      }
+   })
+}

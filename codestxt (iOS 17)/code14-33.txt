@@ -1,0 +1,14 @@
+import SwiftUI
+
+@main
+struct TestApp: App {
+   @UIApplicationDelegateAdaptor(CustomAppDelegate.self) var appDelegate
+   @State var appData = ApplicationData.shared
+
+   var body: some Scene {
+      WindowGroup {
+         ContentView()
+            .environment(appData)
+      }
+   }
+}

@@ -1,0 +1,48 @@
+struct ContentView: View {
+   @Environment(ApplicationData.self) private var appData
+   @Environment(\.modelContext) var dbContext
+   @Query(sort: \SortLetters.letter, order: .forward) private var listLetters: [SortLetters]
+
+   var body: some View {
+      NavigationStack(path: Bindable(appData).viewPath) {
+         List {
+            ForEach(listLetters) { letter in
+               if !letter.listBooks.isEmpty {
+                  Section(letter.letter) {
+                     ForEach(letter.listBooks) { book in
+                        NavigationLink(value: book, label: {
+                           CellBook(book: book)
+                        })
+                     }
+                  }.headerProminence(.increased)
+               }
+            }
+         }
+         .listStyle(.insetGrouped)
+         .navigationTitle("Books")
+         .toolbarTitleDisplayMode(.inline)
+         .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+               Button(action: {
+                  appData.selectedBook = nil
+                  appData.viewPath.append("Add Book")
+               }, label: {
+                  Image(systemName: "plus")
+               })
+            }
+         }
+         .navigationDestination(for: String.self, destination: { viewID in
+            if viewID == "Add Book" {
+               AddBook()
+            } else if viewID == "List Authors" {
+               ListAuthors()
+            } else if viewID == "Add Author" {
+               AddAuthor()
+            }
+         })
+         .navigationDestination(for: Book.self, destination: { book in
+            DetailView(book: book)
+         })
+      }
+   }
+}

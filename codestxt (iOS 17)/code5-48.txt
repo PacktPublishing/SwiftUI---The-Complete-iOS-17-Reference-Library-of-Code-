@@ -1,0 +1,10 @@
+struct ContentView: View {
+   var body: some View {
+      Image(.toronto)
+         .resizable()
+         .scaledToFit()
+         .padding()
+         .scaleEffect(CGSize(width: 0.5, height: 0.5))
+         .blur(radius: 5)
+   }
+}

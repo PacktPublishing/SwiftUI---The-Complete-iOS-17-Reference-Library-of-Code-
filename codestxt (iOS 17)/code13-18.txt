@@ -1,0 +1,30 @@
+struct ContentView: View {
+   @Environment(ApplicationData.self) private var appData
+   @Namespace var mapSpace
+
+   var body: some View {
+      Map(position: Bindable(appData).cameraPos, scope: mapSpace)
+         .mapControlVisibility(.hidden)
+         .safeAreaInset(edge: .top) {
+            HStack {
+               MapCompass(scope: mapSpace)
+                  .padding(5)
+                  .background {
+                     Circle()
+                        .fill(.thinMaterial)
+                        .stroke(.red, lineWidth: 3)
+                  }
+               Spacer()
+               MapPitchToggle(scope: mapSpace)
+                  .padding(5)
+                  .background {
+                     Circle()
+                        .fill(.thinMaterial)
+                        .stroke(.red, lineWidth: 3)
+                  }
+            }.padding()
+            .frame(minWidth: 0, maxWidth: .infinity)
+         }
+         .mapScope(mapSpace)
+   }
+}

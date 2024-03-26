@@ -1,0 +1,1 @@
+.symbolEffect(.bounce, options: .repeat(2), value: isActive)

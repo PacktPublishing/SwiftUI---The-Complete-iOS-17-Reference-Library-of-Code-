@@ -1,0 +1,34 @@
+struct ContentView: View {
+   @Environment(ApplicationData.self) private var appData
+   @State private var selectedItems: Set<ConsumableItem.ID> = []
+
+   var body: some View {
+      Table(appData.listOfItems, selection: $selectedItems) {
+         TableColumn("Name", value: \.name)
+         TableColumn("Category", value: \.category)
+         TableColumn("Calories") { item in
+            Text("\(item.calories)")
+         }.width(100)
+      }
+      .contextMenu(forSelectionType: ConsumableItem.ID.self, menu: { selected in
+         if selected.count <= 0  {
+            Button("Create New Item") {
+               let newItem = ConsumableItem(name: "Test", category: "Test", calories: 0, included: false)
+               appData.listOfItems.append(newItem)
+            }
+         } else if selected.count == 1 {
+            Button("Remove Item") {
+               appData.listOfItems.removeAll(where: { item in
+                  item.id == selected.first
+               })
+            }
+         } else {
+            Button("Remove Selected Items") {
+               appData.listOfItems.removeAll(where: { item in
+                  selected.contains(item.id)
+               })
+            }
+         }
+      })
+   }
+}

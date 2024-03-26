@@ -1,0 +1,15 @@
+if let tokyoTimeZone = TimeZone(identifier: "Asia/Tokyo"), let madridTimeZone = TimeZone(identifier: "Europe/Madrid") {
+   let mydate = Date.now
+   let mytime = mydate.formatted(.dateTime.hour().minute().second())
+
+   var dateTimeStyle = Date.FormatStyle()
+   dateTimeStyle.timeZone = tokyoTimeZone
+   let tokyoTime = mydate.formatted(dateTimeStyle.hour().minute().second())
+   
+   dateTimeStyle.timeZone = madridTimeZone
+   let madridTime = mydate.formatted(dateTimeStyle.hour().minute().second())
+
+   print("My Time: \(mytime)")  // "My Time: 9:25:19 PM"
+   print("Tokyo Time: \(tokyoTime)")  // "Tokyo Time: 10:25:19 AM"
+   print("Madrid Time: \(madridTime)")  // "Madrid Time: 3:25:19 AM"
+}

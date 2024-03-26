@@ -1,0 +1,5 @@
+Button("Animate") {
+   withAnimation(.linear(duration: 5)) {
+      boxScale = 2
+   }
+}

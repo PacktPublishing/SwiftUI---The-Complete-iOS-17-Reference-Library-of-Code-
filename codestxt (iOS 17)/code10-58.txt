@@ -1,0 +1,10 @@
+func archiveInfo() -> Data? {
+   var newBirthday = Date.distantFuture
+   if birthday < Date(timeIntervalSinceNow: -86400) {
+      newBirthday = birthday
+   }
+   let encoder = JSONEncoder()
+   let authorInfo = AuthorInfo(birthday: newBirthday, placeOfBirth: placeOfBirth)
+   let infoData = try? encoder.encode(authorInfo)
+   return infoData
+}

@@ -1,0 +1,10 @@
+struct ContentView: View {
+   @Environment(ApplicationData.self) private var appData
+
+   var body: some View {
+      GroupBox("Editor") {
+         TextEditor(text: Bindable(appData).textInFile)
+            .cornerRadius(10)
+      }.padding()
+   }
+}

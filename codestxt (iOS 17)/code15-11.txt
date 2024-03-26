@@ -1,0 +1,33 @@
+struct EditDocumentView: View {
+   @Environment(ApplicationData.self) private var appData
+   @Environment(\.dismiss) var dismiss
+   @State private var inputText: String = ""
+
+   var body: some View {
+      VStack {
+         HStack {
+            Button("Close") {
+               dismiss()
+            }.padding()
+            Spacer()
+            Button("Save") {
+               Task(priority: .high) {
+                  await appData.saveDocument(text: inputText)
+                  dismiss()
+               }
+            }.padding()
+         }
+         GroupBox {
+            TextEditor(text: $inputText)
+         }
+      }
+      .task {
+         inputText = await appData.openDocument()
+      }
+      .onDisappear {
+         Task(priority: .background) {
+            await appData.closeDocument()
+         }
+      }
+   }
+}

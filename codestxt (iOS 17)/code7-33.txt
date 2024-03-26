@@ -1,0 +1,29 @@
+struct ContentView: View {
+   @Environment(ApplicationData.self) private var appData
+   @State private var selectedRow: Book.ID? = nil
+
+   var body: some View {
+      VStack {
+         HStack {
+            Spacer()
+            Button(action: {
+               removeSelected()
+            }, label: {
+               Image(systemName: "trash")
+            }).disabled(selectedRow == nil ? true : false)
+         }.padding()
+
+         List(selection: $selectedRow) {
+            ForEach(appData.userData) { book in
+               CellBook(book: book)
+            }
+         }.listStyle(.plain)
+      }
+   }
+   func removeSelected() {
+      if let index = appData.userData.firstIndex(where: { $0.id == selectedRow }) {
+         appData.userData.remove(at: index)
+         selectedRow = nil
+      }
+   }
+}

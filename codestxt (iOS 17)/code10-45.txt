@@ -1,0 +1,21 @@
+@Model
+class Author: Identifiable {
+   @Attribute(.unique) var id: UUID = UUID()
+   var name: String = ""
+   @Relationship(deleteRule: .nullify) var books: [Book]? = []
+
+   init(name: String, books: [Book]) {
+      self.name = name
+      self.books = books
+   }
+   var listBooks: [Book] {
+      get {
+         if let books = self.books, !books.isEmpty {
+            let sortList = books.sorted(by: { $0.title < $1.title })
+            return sortList
+         } else {
+            return []
+         }
+      }
+   }
+}

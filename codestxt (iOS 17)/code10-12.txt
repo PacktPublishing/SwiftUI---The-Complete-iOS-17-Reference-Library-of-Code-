@@ -1,0 +1,21 @@
+@Model
+class Book: Identifiable {
+   @Attribute(.unique) var id: UUID = UUID()
+   var title: String = ""
+   var author: Author?
+   var cover: String = ""
+   var year: Int = 0
+
+   init(title: String, author: Author?, cover: String, year: Int) {
+      self.title = title
+      self.author = author
+      self.cover = cover
+      self.year = year
+   }
+   var displayYear: String {
+      get {
+         let value = year > 0 ? String(year) : "Undefined"
+         return value
+      }
+   }
+}

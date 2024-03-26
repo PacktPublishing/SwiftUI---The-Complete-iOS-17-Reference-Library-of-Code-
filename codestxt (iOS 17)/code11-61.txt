@@ -1,0 +1,26 @@
+class ContentViewData {
+   var posX: CGFloat = 0
+   var posY: CGFloat = 0
+   var lastTime: Double = 0
+   var maxTime: Double = 0.2
+}
+struct ContentView: View {
+   let contentData = ContentViewData()
+
+   var body: some View {
+      TimelineView(.animation) { time in
+         let interval = time.date.timeIntervalSinceReferenceDate
+         let delta = interval - contentData.lastTime
+
+         Canvas { context, size in
+            if delta > contentData.maxTime {
+               contentData.posX = CGFloat.random(in: 0..<size.width - 20)
+               contentData.posY = CGFloat.random(in: 0..<size.height - 20)
+               contentData.lastTime = interval
+            }
+            let circleFrame = CGRect(x: contentData.posX, y: contentData.posY, width: 20, height: 20)
+            context.fill(Circle().path(in: circleFrame), with: .color(.red))
+         }.ignoresSafeArea()
+      }
+   }
+}

@@ -1,0 +1,31 @@
+struct DetailView: View {
+   @Environment(ApplicationData.self) private var appData
+   let book: Book
+
+   var body: some View {
+      VStack {
+         Text(book.title)
+            .font(.title)
+         Image(uiImage: book.displayCover)
+            .resizable()
+            .scaledToFit()
+            .frame(width: 100)
+         Text(book.author?.name ?? "Undefined")
+         Text(book.author?.showBirthday ?? "Undefined")
+         Text(book.author?.showPlaceOfBirth ?? "Undefined")
+         Spacer()
+      }.padding()
+      .navigationTitle(Text("Book"))
+      .toolbar {
+         ToolbarItem(placement: .navigationBarTrailing) {
+            Button(action: {
+               appData.selectedBook = book
+               appData.selectedAuthor = book.author
+               appData.viewPath.append("Add Book")
+            }, label: {
+               Image(systemName: "pencil.circle")
+            })
+         }
+      }
+   }
+}

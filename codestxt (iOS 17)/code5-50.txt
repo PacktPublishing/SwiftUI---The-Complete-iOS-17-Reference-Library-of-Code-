@@ -1,0 +1,5 @@
+struct ContentView: View {
+   var body: some View {
+      Image(systemName: "envelope")
+   }
+}

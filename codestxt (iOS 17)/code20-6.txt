@@ -1,0 +1,14 @@
+struct ContentView: View {
+   @State private var counter = 1
+
+   var body: some View {
+      VStack {
+         Text("\(counter) Item")
+            .padding()
+         Button("Add Unit") {
+            counter += 1
+         }
+         Spacer()
+      }
+   }
+}

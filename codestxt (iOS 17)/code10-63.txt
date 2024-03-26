@@ -1,0 +1,29 @@
+struct AddFileView: View {
+   @Environment(ApplicationData.self) private var appData
+   @Environment(\.dismiss) var dismiss
+   @State private var nameInput: String = ""
+
+   var body: some View {
+      VStack {
+         HStack {
+            Text("Name:")
+            TextField("Insert File Name", text: $nameInput)
+               .textFieldStyle(.roundedBorder)
+               .autocapitalization(.none)
+               .disableAutocorrection(true)
+         }.padding(.top, 25)
+         HStack {
+            Spacer()
+            Button("Create") {
+               var fileName = nameInput.trimmingCharacters(in: .whitespaces)
+               if !fileName.isEmpty {
+                  fileName += ".dat"
+                  appData.saveFile(name: fileName)
+                  dismiss()
+               }
+            }
+         }
+         Spacer()
+      }.padding()
+   }
+}

@@ -1,0 +1,42 @@
+struct ContentView: View {
+   @Environment(ApplicationData.self) private var appData
+   @Environment(\.modelContext) var dbContext
+   @Query private var listBooks: [Book]
+
+   var body: some View {
+      NavigationStack(path: Bindable(appData).viewPath) {
+         List {
+            ForEach(listBooks) { book in
+               NavigationLink(value: book, label: {
+                  CellBook(book: book)
+               })
+            }
+         }
+         .listStyle(.plain)
+         .navigationTitle("Books")
+         .toolbarTitleDisplayMode(.inline)
+         .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+               Button(action: {
+                  appData.selectedBook = nil
+                  appData.viewPath.append("Add Book")
+               }, label: {
+                  Image(systemName: "plus")
+               })
+            }
+         }
+         .navigationDestination(for: String.self, destination: { viewID in
+            if viewID == "Add Book" {
+               AddBook()
+            } else if viewID == "List Authors" {
+               ListAuthors()
+            } else if viewID == "Add Author" {
+               AddAuthor()
+            }
+         })
+         .navigationDestination(for: Book.self, destination: { book in
+            DetailView(book: book)
+         })
+      }
+   }
+}

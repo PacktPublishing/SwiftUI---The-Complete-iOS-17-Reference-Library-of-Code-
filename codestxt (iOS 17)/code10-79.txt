@@ -1,0 +1,47 @@
+struct ContentView: View {
+   @State private var document = TextDocument()
+   @State private var openExport: Bool = false
+   @State private var openImport: Bool = false
+
+   var body: some View {
+      NavigationStack {
+         GroupBox("Editor") {
+            TextEditor(text: $document.documentText)
+               .cornerRadius(10)
+         }.padding()
+         .navigationTitle("Document")
+         .navigationBarTitleDisplayMode(.inline)
+         .toolbar {
+            ToolbarItem(placement: .navigationBarLeading) {
+               Button(action: {
+                  openImport = true
+               }, label: {
+                  Image(systemName: "square.and.arrow.down")
+               })
+            }
+            ToolbarItem(placement: .navigationBarTrailing) {
+               Button(action: {
+                  openExport = true
+               }, label: {
+                  Image(systemName: "square.and.arrow.up")
+               })
+            }
+         }
+      }
+      .fileExporter(isPresented: $openExport, document: document, contentType: .plainText, defaultFilename: "My Document", onCompletion: { result in
+         print("Document exported")
+      })
+      .fileImporter(isPresented: $openImport, allowedContentTypes: [.plainText], onCompletion: { result in
+         if let fileURL = try? result.get() {
+            if fileURL.startAccessingSecurityScopedResource() {
+               if let data = try? Data(contentsOf: fileURL) {
+                  if let text = String(data: data, encoding: .utf8) {
+                     document.documentText = text
+                  }
+               }
+               fileURL.stopAccessingSecurityScopedResource()
+            }
+         }
+      })
+   }
+}

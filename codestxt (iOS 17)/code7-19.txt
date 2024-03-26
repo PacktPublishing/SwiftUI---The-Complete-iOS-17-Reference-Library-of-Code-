@@ -1,0 +1,5 @@
+let guides = [
+   GridItem(.flexible(minimum: 75), alignment: .top),
+   GridItem(.flexible(minimum: 75), alignment: .top),
+   GridItem(.flexible(minimum: 75), alignment: .top)
+]

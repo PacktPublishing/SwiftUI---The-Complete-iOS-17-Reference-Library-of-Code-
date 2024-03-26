@@ -1,0 +1,18 @@
+struct ContentView: View {
+   @Environment(ApplicationData.self) private var appData
+
+   var body: some View {
+      VStack {
+         Chart(appData.listOfItems) { item in
+            LineMark(x: .value("Name", item.name), y: .value("Calories", item.calories))
+               .interpolationMethod(.catmullRom)
+            PointMark(x: .value("Name", item.name), y: .value("Calories", item.calories))
+               .foregroundStyle(by: .value("Category", item.category))
+               .symbol(by: .value("Category", item.category))
+               .symbolSize(200)
+         }.frame(height: 300)
+         .padding()
+         Spacer()
+      }
+   }
+}

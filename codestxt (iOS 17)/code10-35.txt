@@ -1,0 +1,5 @@
+#Preview {
+   ContentView()
+      .environment(ApplicationData())
+      .modelContainer(PreviewContainer.container)
+}

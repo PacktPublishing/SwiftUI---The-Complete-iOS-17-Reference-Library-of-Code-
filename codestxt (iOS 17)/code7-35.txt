@@ -1,0 +1,39 @@
+struct ContentView: View {
+   @Environment(ApplicationData.self) private var appData
+   @State private var selectedRows: Set<Book.ID> = []
+   @State private var editActive: Bool = false
+
+   var body: some View {
+      VStack {
+         HStack {
+            Button(editActive ? "Done" : "Edit") {
+               editActive.toggle()
+            }
+            Spacer()
+            Button(action: {
+               removeSelected()
+            }, label: {
+               Image(systemName: "trash")
+            }).disabled(selectedRows.count == 0 ? true : false)
+         }.padding()
+
+         List(selection: $selectedRows) {
+            ForEach(appData.userData) { book in
+               CellBook(book: book)
+            }
+         }.listStyle(.plain)
+         .environment(\.editMode, .constant(editActive ? EditMode.active : EditMode.inactive))
+      }
+   }
+   func removeSelected() {
+      var indexes = IndexSet()
+      for item in selectedRows {
+         if let index = appData.userData.firstIndex(where: { $0.id == item }) {
+            indexes.insert(index)
+         }
+      }
+      appData.userData.remove(atOffsets: indexes)
+      selectedRows = []
+      editActive = false
+   }
+}

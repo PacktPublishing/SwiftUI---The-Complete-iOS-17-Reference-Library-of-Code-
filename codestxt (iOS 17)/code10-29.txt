@@ -1,0 +1,51 @@
+struct ContentView: View {
+   @Environment(ApplicationData.self) private var appData
+   @Environment(\.modelContext) var dbContext
+   @State private var orderBooks: SortOrder = .forward
+
+   var body: some View {
+      NavigationStack(path: Bindable(appData).viewPath) {
+         ListBooksView(orderBooks: orderBooks)
+            .listStyle(.plain)
+            .navigationTitle("Books")
+            .toolbarTitleDisplayMode(.inline)
+            .toolbar {
+               ToolbarItem(placement: .navigationBarTrailing) {
+                  Button(action: {
+                     orderBooks = orderBooks == .forward ? .reverse : .forward
+                  }, label: {
+                     Image(systemName: "gear")
+                  })
+               }
+               ToolbarItem(placement: .navigationBarTrailing) {
+                  NavigationLink(value: "Add Book", label: {
+                     Image(systemName: "plus")
+                  })
+               }
+            }
+            .navigationDestination(for: String.self, destination: { viewID in
+               if viewID == "Add Book" {
+                  AddBook()
+               } else if viewID == "List Authors" {
+                  ListAuthors()
+               } else if viewID == "Add Author" {
+                  AddAuthor()
+               }
+            })
+      }
+   }
+}
+struct ListBooksView: View {
+   @Query var listBooks: [Book]
+
+   init(orderBooks: SortOrder) {
+      _listBooks = Query(sort: \Book.title, order: orderBooks)
+   }
+   var body: some View {
+      List {
+         ForEach(listBooks) { book in
+            CellBook(book: book)
+         }
+      }
+   }
+}

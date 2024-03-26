@@ -1,0 +1,5 @@
+WindowGroup {
+   ContentView()
+      .environment(appData)
+      .modelContainer(for: [Book.self, Author.self])
+}

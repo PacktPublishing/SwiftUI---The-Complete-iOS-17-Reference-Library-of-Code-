@@ -1,0 +1,12 @@
+struct ContentView: View {
+   @Environment(ApplicationData.self) private var appData
+
+   var body: some View {
+      List(appData.userData) { book in
+         CellBook(book: book)
+            .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 10, trailing: 0))
+            .listRowBackground(Color(white: 0.95))
+            .listRowSeparator(.hidden)
+      }.listStyle(.plain)
+   }
+}

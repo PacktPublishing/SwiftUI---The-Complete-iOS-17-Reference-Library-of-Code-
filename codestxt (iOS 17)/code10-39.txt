@@ -1,0 +1,11 @@
+@MainActor
+static var sample: Book {
+   let context = PreviewContainer.container.mainContext
+   let descriptor = FetchDescriptor<Book>(predicate: #Predicate { _ in true }, sortBy: [SortDescriptor(\.title)])
+   do {
+      let results = try context.fetch(descriptor)
+      return results[0]
+   } catch {
+      fatalError("Failed to get sample")
+   }
+}

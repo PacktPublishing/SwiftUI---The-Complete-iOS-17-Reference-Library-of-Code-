@@ -1,0 +1,1 @@
+.background(setActive ? Color.green : Color.red, in: Capsule())

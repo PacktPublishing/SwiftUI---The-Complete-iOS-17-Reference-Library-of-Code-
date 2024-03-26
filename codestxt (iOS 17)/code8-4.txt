@@ -1,0 +1,29 @@
+struct ContentView: View {
+   @Environment(ApplicationData.self) private var appData
+
+   var body: some View {
+      NavigationStack {
+         ScrollViewReader { proxy in
+            List(appData.userData) { book in
+               CellBook(book: book)
+                  .id(book.id)
+            }
+            .navigationTitle(Text("Books"))
+            .toolbar {
+               ToolbarItemGroup(placement: .navigationBarTrailing) {
+                  Button(action: {
+                     if let firstIndex = appData.userData.first?.id {
+                        proxy.scrollTo(firstIndex, anchor: .bottom)
+                     }
+                  }, label: { Image(systemName: "arrow.up.doc") })
+                  Button(action: {
+                     if let lastIndex = appData.userData.last?.id {
+                        proxy.scrollTo(lastIndex, anchor: .bottom)
+                     }
+                  }, label: { Image(systemName: "arrow.down.doc") })
+               }
+            }
+         }
+      }
+   }
+}

@@ -1,0 +1,14 @@
+import SwiftUI
+import SwiftData
+
+@Model
+class Author: Identifiable {
+   @Attribute(.unique) var id: UUID = UUID()
+   var name: String = ""
+   var books: [Book]? = []
+
+   init(name: String, books: [Book]) {
+      self.name = name
+      self.books = books
+   }
+}

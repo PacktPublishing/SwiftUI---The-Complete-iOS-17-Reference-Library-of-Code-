@@ -1,0 +1,38 @@
+func sendNotification() async {
+   let content = UNMutableNotificationContent()
+   content.title = "Reminder"
+   content.body = inputMessage
+
+   let idImage = "attach-\(UUID())"
+   if let urlImage = await getThumbnail(id: idImage) {
+      if let attachment = try? UNNotificationAttachment(identifier: idImage, url: urlImage, options: nil) {
+         content.attachments = [attachment]
+      }
+   }
+   let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 10, repeats: false)
+
+   let id = "reminder-\(UUID())"
+   let request = UNNotificationRequest(identifier: id, content: content, trigger: trigger)
+   do {
+      let center = UNUserNotificationCenter.current()
+      try await center.add(request)
+   } catch {
+      print("Error: \(error)")
+   }
+}
+func getThumbnail(id: String) async -> URL? {
+   let manager = FileManager.default
+   if let docURL = manager.urls(for: .documentDirectory, in: .userDomainMask).first {
+      let fileURL = docURL.appendingPathComponent("\(id).png")
+      if let image = UIImage(named: "husky") {
+         if let thumbnail = await image.byPreparingThumbnail(ofSize: CGSize(width: 100, height: 100)) {
+            if let imageData = thumbnail.pngData() {
+               if let _ = try? imageData.write(to: fileURL) {
+                  return fileURL
+               }
+            }
+         }
+      }
+   }
+   return nil
+}

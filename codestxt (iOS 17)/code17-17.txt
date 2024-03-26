@@ -1,0 +1,16 @@
+struct ContentView: View {
+   @Environment(ApplicationData.self) private var appData
+
+   var body: some View {
+      VStack {
+         Button("Load Web") {
+            Task(priority: .high) {
+               await appData.loadWeb()
+            }
+         }.disabled(appData.buttonDisabled)
+            Text("Total Characters: \(appData.webContent.count)")
+               .padding()
+            Spacer()
+      }.padding()
+   }
+}

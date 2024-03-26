@@ -1,0 +1,10 @@
+struct ContentView: View {
+   var body: some View {
+      VStack {
+         MyCustomView()
+            .frame(width: 200, height: 150)
+            .padding()
+         Spacer()
+      }
+   }
+}

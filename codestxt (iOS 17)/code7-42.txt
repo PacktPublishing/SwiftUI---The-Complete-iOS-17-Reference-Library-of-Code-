@@ -1,0 +1,9 @@
+struct ContentView: View {
+   var appData = ApplicationData()
+
+   var body: some View {
+      List(appData.items, children: \.options) { item in
+        Text(item.name)
+     }
+   }
+}

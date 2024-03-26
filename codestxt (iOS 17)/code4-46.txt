@@ -1,0 +1,11 @@
+let message = "Name: John, Name: George, Name: David"
+let regex = /Name:\s+([a-zA-Z]+)/
+
+let matches = message.matches(of: regex)
+if !matches.isEmpty {
+   let names = matches.map({ value in
+      return value.output.1
+   })
+   let list = names.joined(separator: ", ")
+   print("Names are: \(list)")  // "Names are: John, George, David"
+}

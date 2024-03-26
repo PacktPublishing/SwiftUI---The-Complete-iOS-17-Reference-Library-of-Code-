@@ -1,0 +1,30 @@
+import Foundation
+import RegexBuilder
+
+let separator = /\n/
+let content = """
+06/15/2020 Lamp $35.00
+06/21/2020 Desk $250.50
+06/29/2020 Chair $129.00
+"""
+let regex = Regex {
+   Capture {
+      One(.date(.numeric, locale: .current, timeZone: .current))
+   }
+   OneOrMore(.whitespace)
+   Capture {
+      OneOrMore(CharacterClass("a"..."z", "A"..."Z"))
+   }
+   OneOrMore(.whitespace)
+   Capture {
+      One(.localizedCurrency(code: "USD", locale: .current))
+   }
+}
+let lines = content.split(separator: separator)
+for line in lines {
+   if let result = line.firstMatch(of: regex) {
+      print("Date: \(result.output.1.formatted(date: .complete, time: .omitted))")
+      print("Item: \(result.output.2)")
+      print("Price: \(result.output.3)")
+   }
+}

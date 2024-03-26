@@ -1,0 +1,23 @@
+import SwiftUI
+
+@main
+struct TestApp: App {
+   @State private var appData = ApplicationData()
+   @FocusedValue(\.address) var addressValue: String?
+
+   var body: some Scene {
+      WindowGroup {
+         ContentView()
+            .environment(appData)
+      }
+      #if os(macOS)
+      .commands {
+         CommandGroup(after: .newItem, addition: {
+            Button("Option 1") {
+               print("This is option 1")
+            }.disabled(addressValue == nil)
+         })
+      }
+      #endif
+   }
+}

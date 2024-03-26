@@ -1,0 +1,14 @@
+struct ContentView: View {
+   @Environment(ApplicationData.self) private var appData
+
+   var body: some View {
+      TabView {
+         ForEach(appData.userData) { book in
+            Image(book.cover)
+               .resizable()
+               .scaledToFit()
+         }
+      }.tabViewStyle(.page)
+      .indexViewStyle(.page(backgroundDisplayMode: .always))
+   }
+}

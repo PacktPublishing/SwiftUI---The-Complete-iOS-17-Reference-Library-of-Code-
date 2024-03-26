@@ -1,0 +1,1 @@
+.symbolEffect(.disappear, isActive: isActive)

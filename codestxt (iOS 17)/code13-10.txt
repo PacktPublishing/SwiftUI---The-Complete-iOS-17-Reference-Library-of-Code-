@@ -1,0 +1,11 @@
+struct ContentView: View {
+   @Environment(ApplicationData.self) private var appData
+   let coordinatesApple = CLLocationCoordinate2D(latitude: 40.7637825011971, longitude: -73.9731328627541)
+   
+   var body: some View {
+      Map(position: Bindable(appData).cameraPos) {
+         Marker("Apple Store", coordinate: coordinatesApple)
+            .tint(.blue)
+      }
+   }
+}

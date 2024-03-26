@@ -1,0 +1,3 @@
+Button("Delete", role: .destructive) {
+   print("Delete Action")
+}.buttonStyle(.bordered)

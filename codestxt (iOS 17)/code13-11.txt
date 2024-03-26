@@ -1,0 +1,5 @@
+Map(position: Bindable(appData).cameraPos) {
+   Annotation("Apple Store", coordinate: coordinatesApple, content: {
+      Image(.appstore)
+   })
+}

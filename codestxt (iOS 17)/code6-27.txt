@@ -1,0 +1,29 @@
+struct ContentView: View {
+   @State private var title = "Default Name"
+   @State private var numberInput = ""
+
+   var body: some View {
+      VStack(spacing: 10) {
+         Text(title)
+            .padding()
+            .background(Color.yellow)
+         TextField("Insert Number", text: $numberInput)
+            .textFieldStyle(.roundedBorder)
+            .padding(4)
+            .keyboardType(.numbersAndPunctuation)
+            .onChange(of: numberInput, initial: false) { old, value in
+               if !value.isEmpty && Int(value) == nil {
+                     numberInput = old
+               }
+            }
+         HStack {
+            Spacer()
+            Button("Save") {
+               title = numberInput
+               numberInput = ""
+            }
+         }
+         Spacer()
+      }.padding()
+   }
+}

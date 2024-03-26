@@ -1,0 +1,16 @@
+struct ContentView: View {
+   @Environment(ApplicationData.self) private var appData
+
+   var body: some View {
+      VStack {
+         Text(appData.showValue)
+         Button("Add Value") {
+            appData.myObject.testValue += 100
+         }
+         Spacer()
+      }.padding()
+      .onDisappear {
+         appData.myObserver = nil
+      }
+   }
+}

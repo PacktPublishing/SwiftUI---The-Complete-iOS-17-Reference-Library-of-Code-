@@ -1,0 +1,6 @@
+Window("My Window", id: "mywindow") {
+   AuxiliaryView()
+}
+.defaultSize(width: 200, height: 200)
+.defaultPosition(.topLeading)
+.commandsRemoved()

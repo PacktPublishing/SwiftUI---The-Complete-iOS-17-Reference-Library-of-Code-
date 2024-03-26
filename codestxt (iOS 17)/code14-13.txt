@@ -1,0 +1,45 @@
+import SwiftUI
+import UserNotifications
+
+struct ContentView: View {
+   @State private var inputMessage: String = ""
+   @State private var isButtonDisabled: Bool = false
+
+   var body: some View {
+      VStack(spacing: 12) {
+         HStack {
+            Text("Message:")
+            TextField("Insert Message", text: $inputMessage)
+               .textFieldStyle(.roundedBorder)
+         }
+         HStack {
+            Spacer()
+            Button("Post Notification") {
+               let message = inputMessage.trimmingCharacters(in: .whitespaces)
+               if !message.isEmpty {
+                  Task(priority: .background) {
+                     let center = UNUserNotificationCenter.current()
+                     let authorization = await center.notificationSettings()
+                     if authorization.authorizationStatus == .authorized {
+                        inputMessage = ""
+                        await sendNotification()
+                     }
+                  }
+               }
+            }.disabled(isButtonDisabled)
+         }
+         Spacer()
+      }.padding()
+      .task(priority: .background) {
+         do {
+            let center = UNUserNotificationCenter.current()
+            let authorized = try await center.requestAuthorization(options: [.alert, .sound])
+            await MainActor.run {
+               isButtonDisabled = !authorized
+            }
+         } catch {
+            print("Error: \(error)")
+         }
+      }
+   }
+}

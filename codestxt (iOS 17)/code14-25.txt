@@ -1,0 +1,15 @@
+import SwiftUI
+
+@Observable class ApplicationData {
+   var showValue: String = ""
+   @ObservationIgnored var myObject = MyObject()
+   @ObservationIgnored var myObserver: NSKeyValueObservation?
+
+   init() {
+      myObserver = myObject.observe(\.testValue, options: [.new], changeHandler: { obj, value in
+         if let newValue = value.newValue {
+            self.showValue = "Value: \(newValue)"
+         }
+      })
+   }
+}

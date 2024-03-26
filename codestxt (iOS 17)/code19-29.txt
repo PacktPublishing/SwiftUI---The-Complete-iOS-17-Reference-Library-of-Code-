@@ -1,0 +1,22 @@
+struct ContentView: View {
+   @Environment(ApplicationData.self) private var appData
+   @SceneStorage("selection") var selection: Int = 0
+
+   var body: some View {
+      VStack {
+         HStack(alignment: .top, spacing: 20) {
+            Picker("Select", selection: $selection) {
+               ForEach(appData.foodList.indices, id: \.self) { index in
+                  Button(appData.foodList[index].capitalized, action: {
+                     selection = index
+                  }).tag(index)
+               }
+            }.frame(width: 200, height: 150, alignment: .top)
+            Image(appData.foodList[selection])
+               .resizable()
+               .scaledToFit()
+               .frame(width: 200, height: 150)
+         }
+      }.padding(20)
+   }
+}

@@ -1,0 +1,28 @@
+struct ContentView: View {
+   @Environment(ApplicationData.self) private var appData
+
+   var body: some View {
+      ScrollView(.horizontal, showsIndicators: false) {
+         LazyHStack(spacing: 0) {
+            ForEach(appData.userData) { book in
+               CellBook(book: book)
+            }
+         }
+      }
+   }
+}
+struct CellBook: View {
+   let book: Book
+
+   var body: some View {
+      VStack {
+         Image(book.cover)
+            .resizable()
+            .scaledToFit()
+            .frame(width: 80, height: 100)
+         Text(book.title)
+            .font(.caption)
+      }.padding(10)
+      .frame(width: 100, height: 150)
+   }
+}

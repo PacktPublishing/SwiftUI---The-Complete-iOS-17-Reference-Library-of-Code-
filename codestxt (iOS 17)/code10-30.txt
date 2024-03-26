@@ -1,0 +1,52 @@
+struct ContentView: View {
+   @Environment(ApplicationData.self) private var appData
+   @Environment(\.modelContext) var dbContext
+   @State private var searchValue: String = ""
+
+   var body: some View {
+      NavigationStack(path: Bindable(appData).viewPath) {
+         ListBooksView(search: searchValue)
+            .listStyle(.plain)
+            .navigationTitle("Books")
+            .toolbarTitleDisplayMode(.inline)
+            .toolbar {
+               ToolbarItem(placement: .navigationBarTrailing) {
+                  NavigationLink(value: "Add Book", label: {
+                     Image(systemName: "plus")
+                  })
+               }
+            }
+            .navigationDestination(for: String.self, destination: { viewID in
+               if viewID == "Add Book" {
+                  AddBook()
+               } else if viewID == "List Authors" {
+                  ListAuthors()
+               } else if viewID == "Add Author" {
+                  AddAuthor()
+               }
+            })
+      }
+      .searchable(text: $searchValue, prompt: Text("Search"))
+   }
+}
+struct ListBooksView: View {
+   @Query private var listBooks: [Book]
+
+   init(search: String) {
+      var predicate = #Predicate<Book> { _ in true }
+      if !search.isEmpty {
+         let searching = search.lowercased()
+         predicate = #Predicate<Book> { book in
+            book.title.localizedStandardContains(searching)
+         }
+      }
+      _listBooks = Query<Book, [Book]>(filter: predicate, sort: \Book.title, order: .forward)
+   }
+   var body: some View {
+      List {
+         ForEach(listBooks) { book in
+            CellBook(book: book)
+         }
+      }
+   }
+}

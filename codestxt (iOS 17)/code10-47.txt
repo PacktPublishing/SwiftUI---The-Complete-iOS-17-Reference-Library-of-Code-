@@ -1,0 +1,23 @@
+import SwiftUI
+import SwiftData
+
+@Model
+class SortLetters {
+   var letter: String = ""
+   @Relationship(deleteRule: .nullify) var books: [Book]? = []
+
+   init(letter: String, books: [Book]) {
+      self.letter = letter
+      self.books = books
+   }
+   var listBooks: [Book] {
+      get {
+         if let books = self.books, !books.isEmpty {
+            let sortList = books.sorted(by: { $0.title < $1.title })
+            return sortList
+         } else {
+            return []
+         }
+      }
+   }
+}

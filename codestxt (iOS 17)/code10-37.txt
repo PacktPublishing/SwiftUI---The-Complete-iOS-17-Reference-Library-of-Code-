@@ -1,0 +1,38 @@
+import SwiftUI
+
+struct DetailView: View {
+   @Environment(ApplicationData.self) private var appData
+   let book: Book
+
+   var body: some View {
+      VStack {
+         Text(book.title)
+            .font(.title)
+         Text(book.author?.name ?? "Undefined")
+         Image(book.cover)
+            .resizable()
+            .scaledToFit()
+            .frame(width: 100)
+         Spacer()
+      }.padding()
+      .navigationTitle(Text("Book"))
+      .toolbar {
+         ToolbarItem(placement: .navigationBarTrailing) {
+            Button(action: {
+               appData.selectedBook = book
+               appData.selectedAuthor = book.author
+               appData.viewPath.append("Add Book")
+            }, label: {
+               Image(systemName: "pencil.circle")
+            })
+         }
+      }
+   }
+}
+#Preview {
+   NavigationStack {
+      DetailView(book: PreviewContainer.sample)
+         .environment(ApplicationData())
+         .modelContainer(PreviewContainer.container)
+   }
+}

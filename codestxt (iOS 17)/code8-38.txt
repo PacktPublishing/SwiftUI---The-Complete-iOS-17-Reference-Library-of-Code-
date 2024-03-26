@@ -1,0 +1,23 @@
+struct ContentView: View {
+   @Environment(ApplicationData.self) private var appData
+   @State private var presentInspector: Bool = false
+
+   var body: some View {
+      NavigationStack {
+         List(appData.userData) { book in
+            CellBook(book: book)
+         }
+         .navigationTitle(Text("Books"))
+         .navigationBarTitleDisplayMode(.inline)
+         .inspector(isPresented: $presentInspector) {
+            InspectorView()
+         }
+         .toolbar {
+            Spacer()
+            Button("Inspector") {
+               presentInspector.toggle()
+            }
+         }
+      }
+   }
+}

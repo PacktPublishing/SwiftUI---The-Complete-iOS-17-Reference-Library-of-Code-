@@ -1,0 +1,14 @@
+@MainActor
+func getFiles() {
+   if metaData.resultCount > 0 {
+      let files = metaData.results as! [NSMetadataItem]
+      for item in files {
+         let fileName = item.value(forAttribute: NSMetadataItemFSNameKey) as! String
+         if !listOfFiles.contains(where: { $0.name == fileName }) {
+            let documentURL = item.value(forAttribute: NSMetadataItemURLKey) as! URL
+            listOfFiles.append(FileInfo(name: fileName, url: documentURL))
+         }
+      }
+      listOfFiles.sort(by: { $0.name < $1.name })
+   }
+}

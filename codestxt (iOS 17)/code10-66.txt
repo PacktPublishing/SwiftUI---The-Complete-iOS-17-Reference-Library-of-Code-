@@ -1,0 +1,13 @@
+func loadFile(name: String) -> UIImage? {
+   if let docURL = directories?.first {
+      let fileURL = docURL.appendingPathComponent(name)
+      let filePath = fileURL.path
+
+      if manager.fileExists(atPath: filePath) {
+         if let content = manager.contents(atPath: filePath) {
+            return UIImage(data: content)
+         }
+      }
+   }
+   return nil
+}

@@ -1,0 +1,24 @@
+struct ContentView: View {
+   @Environment(ApplicationData.self) private var appData
+   @State private var searchTerm: String = ""
+
+   var body: some View {
+      NavigationStack {
+         List(appData.filteredItems) { book in
+            CellBook(book: book)
+         }
+         .navigationTitle(Text("Books"))
+      }
+      .searchable(text: $searchTerm, prompt: Text("Insert title"))
+      .searchSuggestions({
+         ForEach(appData.filteredItems) { item in
+            Text("\(item.title) - \(item.author)")
+               .searchCompletion(item.title)
+         }
+      })
+      .onChange(of: searchTerm, initial: false) { old, value in
+         let search = value.trimmingCharacters(in: .whitespaces)
+         appData.filterValues(search: search)
+      }
+   }
+}

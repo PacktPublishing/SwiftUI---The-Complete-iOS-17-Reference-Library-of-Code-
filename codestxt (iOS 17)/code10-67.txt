@@ -1,0 +1,30 @@
+struct ContentView: View {
+   @Environment(ApplicationData.self) private var appData
+   @State private var openSheet: Bool = false
+
+   var body: some View {
+      NavigationStack {
+         List {
+            ForEach(appData.listOfFiles) { file in
+               NavigationLink(value: file, label: {
+                  Text(file.name)
+               })
+            }
+         }
+         .navigationBarTitle("Files")
+         .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+               Button("Add File") {
+                  openSheet = true
+               }
+            }
+         }
+         .navigationDestination(for: File.self, destination: { file in
+            ShowFile(file: file)
+         })
+         .sheet(isPresented: $openSheet) {
+            AddFileView()
+         }
+      }
+   }
+}

@@ -1,0 +1,23 @@
+import SwiftUI
+import Observation
+
+struct Employees: Identifiable {
+   let id = UUID()
+   var name: String
+   var position: String
+   var subordinates: [Employees]
+}
+@Observable class ApplicationData {
+   var listOfEmployees: [Employees] = []
+   
+   init() {
+      let employee1 = Employees(name: "Sander", position: "Subordinate", subordinates: [])
+      let employee2 = Employees(name: "Annie", position: "Subordinate", subordinates: [])
+      let employee3 = Employees(name: "Charlie", position: "Subordinate", subordinates: [])
+      let employee4 = Employees(name: "Sebastian", position: "Subordinate", subordinates: [])
+      let employee5 = Employees(name: "Bill", position: "Subordinate", subordinates: [])
+
+      listOfEmployees.append(Employees(name: "Robert", position: "Manager", subordinates: [employee1, employee2, employee3]))
+      listOfEmployees.append(Employees(name: "Anna", position: "Manager", subordinates: [employee4, employee5]))
+   }
+}

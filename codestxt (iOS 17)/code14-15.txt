@@ -1,0 +1,17 @@
+func sendNotification() async {
+   let content = UNMutableNotificationContent()
+   content.title = "Reminder"
+   content.body = inputMessage
+   content.sound = UNNotificationSound(named: UNNotificationSoundName(rawValue: "alarm.mp3"))
+
+   let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 30, repeats: false)
+   let id = "reminder-\(UUID())"
+   let request = UNNotificationRequest(identifier: id, content: content, trigger: trigger)
+
+   do {
+      let center = UNUserNotificationCenter.current()
+      try await center.add(request)
+   } catch {
+      print("Error: \(error)")
+   }
+}

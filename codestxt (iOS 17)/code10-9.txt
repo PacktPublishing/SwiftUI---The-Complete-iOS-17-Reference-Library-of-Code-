@@ -1,0 +1,41 @@
+import SwiftUI
+import SwiftData
+
+struct AddBook: View {
+   @Environment(ApplicationData.self) private var appData
+   @Environment(\.modelContext) var dbContext
+
+   @State private var titleInput: String = ""
+   @State private var authorInput: String = ""
+   @State private var yearInput: String = ""
+
+   var body: some View {
+      VStack(alignment: .trailing, spacing: 10) {
+         TextField("Insert Title", text: $titleInput)
+            .textFieldStyle(.roundedBorder)
+         TextField("Insert Author", text: $authorInput)
+            .textFieldStyle(.roundedBorder)
+         TextField("Insert Year", text: $yearInput)
+            .textFieldStyle(.roundedBorder)
+            .keyboardType(.numbersAndPunctuation)
+         Button("Save") {
+            storeBook()
+         }.buttonStyle(.borderedProminent)
+         Spacer()
+      }.padding()
+   }
+   func storeBook() {
+      let title = titleInput.trimmingCharacters(in: .whitespaces)
+      let author = authorInput.trimmingCharacters(in: .whitespaces)
+      if let year = Int(yearInput), !title.isEmpty && !author.isEmpty {
+         let newBook = Book(title: title, author: author, cover: "nocover", year: year)
+         dbContext.insert(newBook)
+         appData.viewPath.removeLast()
+      }
+   }
+}
+#Preview {
+   AddBook()
+      .environment(ApplicationData())
+      .modelContainer(for: [Book.self], inMemory: true)
+}

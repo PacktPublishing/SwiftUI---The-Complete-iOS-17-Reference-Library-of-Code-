@@ -1,0 +1,22 @@
+import SwiftUI
+import Observation
+
+@Observable class ApplicationData {
+   @ObservationIgnored let manager: FileManager
+   @ObservationIgnored let directories: [URL]?
+
+   init() {
+      manager = FileManager.default
+      directories = manager.urls(for: .documentDirectory, in: .userDomainMask)
+   }
+   func saveFile(name: String) {
+      if let docURL = directories?.first {
+         let newFileURL = docURL.appendingPathComponent(name)
+         let path = newFileURL.path
+
+         if let contentData = UIImage(named: "husky")?.pngData() {
+            manager.createFile(atPath: path, contents: contentData, attributes: nil)
+         }
+      }
+   }
+}

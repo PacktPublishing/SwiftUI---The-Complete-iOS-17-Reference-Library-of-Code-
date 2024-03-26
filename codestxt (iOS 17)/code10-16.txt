@@ -1,0 +1,9 @@
+.navigationDestination(for: String.self, destination: { viewID in
+   if viewID == "Add Book" {
+      AddBook()
+   } else if viewID == "List Authors" {
+      ListAuthors()
+   } else if viewID == "Add Author" {
+      AddAuthor()
+   }
+})

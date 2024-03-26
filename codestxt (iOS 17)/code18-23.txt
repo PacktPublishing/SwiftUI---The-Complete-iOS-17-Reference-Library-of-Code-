@@ -1,0 +1,16 @@
+import SwiftUI
+import AVFoundation
+
+class CustomPlayerView: UIView {
+   override class var layerClass: AnyClass {
+       return AVPlayerLayer.self
+   }
+}
+struct PlayerView: UIViewRepresentable {
+   var view = CustomPlayerView()
+
+   func makeUIView(context: Context) -> UIView {
+      return view
+   }
+   func updateUIView(_ uiView: UIView, context: Context) { }
+}

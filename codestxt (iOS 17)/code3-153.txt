@@ -1,0 +1,9 @@
+for obj in list {
+   if obj is OfficeEmployee {
+      let temp = obj as! OfficeEmployee
+      temp.deskNumber = 100
+   } else if obj is WarehouseEmployee {
+      let temp = obj as! WarehouseEmployee
+      temp.area = "New Area"
+   }
+}

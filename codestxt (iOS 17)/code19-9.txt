@@ -1,0 +1,24 @@
+import SwiftUI
+
+@main
+struct TestApp: App {
+   @State private var appData = ApplicationData()
+
+   var body: some Scene {
+      WindowGroup {
+         ContentView()
+            .environment(appData)
+      }
+      #if os(macOS)
+      .commands {
+         CommandGroup(after: .newItem, addition: {
+            Picker("Options", selection: $appData.selectedOption) {
+               Text("Option 1").tag(1)
+               Text("Option 2").tag(2)
+               Text("Option 3").tag(3)
+            }
+         })
+      }
+      #endif
+   }
+}

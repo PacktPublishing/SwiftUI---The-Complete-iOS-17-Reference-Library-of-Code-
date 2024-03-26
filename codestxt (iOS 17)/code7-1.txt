@@ -1,0 +1,10 @@
+struct ContentView: View {
+   var body: some View {
+      VStack {
+         ForEach(1...5, id: \.self) { value in
+            Text("Value: \(value)")
+         }
+         Spacer()
+      }
+   }
+}

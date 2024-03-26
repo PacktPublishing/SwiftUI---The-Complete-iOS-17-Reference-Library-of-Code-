@@ -1,0 +1,8 @@
+extension AnyTransition {
+   static var mytransition: AnyTransition {
+      let animation = Animation.easeInOut(duration: 2)
+      let transition = AnyTransition.scale.combined(with: .opacity)
+         .animation(animation)
+      return transition
+   }
+}

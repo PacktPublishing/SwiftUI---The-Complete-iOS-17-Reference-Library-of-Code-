@@ -1,0 +1,10 @@
+.commands {
+   CommandMenu("Options") {
+      Button("Option 1") {
+         print("This is the option 1")
+      }
+      Button("Option 2") {
+         print("This is the option 2")
+      }.keyboardShortcut("A", modifiers: [.shift])
+   }
+}

@@ -1,0 +1,31 @@
+@MainActor
+func openDocument() async -> String {
+   let manager = FileManager.default
+   if let fileURL = manager.url(forUbiquityContainerIdentifier: nil) {
+      let documentURL = fileURL.appendingPathComponent("Documents/myfile.dat")
+      document = MyDocument(fileURL: documentURL)
+      let success = await document.open()
+      if success {
+         if let data = document.fileContent {
+            return String(data: data, encoding: .utf8) ?? ""
+         }
+      }
+   }
+   return ""
+}
+@MainActor
+func saveDocument(text: String) async {
+   let manager = FileManager.default
+   if let fileURL = manager.url(forUbiquityContainerIdentifier: nil) {
+      let documentURL = fileURL.appendingPathComponent("Documents/myfile.dat")
+
+      if let data = text.data(using: .utf8) {
+         document.fileContent = data
+         let _ = await document.save(to: documentURL, for: .forOverwriting)
+      }
+   }
+}
+@MainActor
+func closeDocument() async {
+   let _ = await document.close()
+}

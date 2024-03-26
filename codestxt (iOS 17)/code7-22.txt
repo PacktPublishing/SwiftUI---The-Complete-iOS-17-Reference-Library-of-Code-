@@ -1,0 +1,9 @@
+struct ContentView: View {
+   @Environment(ApplicationData.self) private var appData
+
+   var body: some View {
+      List(appData.userData) { book in
+         CellBook(book: book)
+      }.listStyle(.plain)
+   }
+}

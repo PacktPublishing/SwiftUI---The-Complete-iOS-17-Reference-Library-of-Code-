@@ -1,0 +1,24 @@
+@MainActor
+func createFile(name: String) async {
+   let manager = FileManager.default
+   if let fileURL = manager.url(forUbiquityContainerIdentifier: nil) {
+      let documentURL = fileURL.appendingPathComponent("Documents/\(name)")
+      let document = MyDocument(fileURL: documentURL)
+      document.fileContent = Data()
+      let _ = await document.save(to: documentURL, for: .forCreating)
+   }
+}
+func removeFiles(indexes: IndexSet) async {
+   let manager = FileManager.default
+   for index in indexes {
+      let fileURL = listOfFiles[index].url
+      do {
+         try manager.removeItem(atPath: fileURL.path)
+         await MainActor.run {
+            let _ = listOfFiles.remove(at: index)
+         }
+      } catch {
+         print("Error deleting file: \(error)")
+      }
+   }
+}

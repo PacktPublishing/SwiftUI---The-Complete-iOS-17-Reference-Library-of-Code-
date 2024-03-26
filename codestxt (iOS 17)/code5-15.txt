@@ -1,0 +1,6 @@
+struct ContentView: View {
+   var body: some View {
+      Text("Hello World")
+         .padding(EdgeInsets(top: 0.0, leading: 40.0, bottom: 0.0, trailing: 40.0))
+   }
+}

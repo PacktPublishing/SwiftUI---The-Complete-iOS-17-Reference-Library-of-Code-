@@ -1,0 +1,28 @@
+enum Errors: Error {
+   case OutOfStock
+}
+struct Stock {
+   var totalLamps = 5
+
+   mutating func sold(amount: Int) -> Result<Int, Errors> {
+      if amount > totalLamps {
+         return .failure(.OutOfStock)
+      } else {
+         totalLamps = totalLamps - amount
+         return .success(totalLamps)
+      }
+   }
+}
+var mystock = Stock()
+
+let result = mystock.sold(amount: 3)
+switch result {
+   case .success(let stock):
+      print("Lamps in stock: \(stock)")
+   case .failure(let error):
+      if error == .OutOfStock {
+         print("Error: Out of Stock")
+      } else {
+         print("Error")
+      }
+}

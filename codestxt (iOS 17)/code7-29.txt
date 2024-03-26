@@ -1,0 +1,23 @@
+struct ContentView: View {
+   @Environment(ApplicationData.self) private var appData
+
+   var orderList: [(key: String, value: [Book])] {
+      let listGroup: [String: [Book]] = Dictionary(grouping: appData.userData, by: { value in
+         let index = value.title.startIndex
+         let initial = value.title[index]
+         return String(initial)
+      })
+      return listGroup.sorted(by: { $0.key < $1.key })
+   }
+   var body: some View {
+      List {
+         ForEach(orderList, id: \.key) { sections in
+            Section(header: Text(sections.key)) {
+               ForEach(sections.value) { book in
+                  CellBook(book: book)
+               }
+            }.headerProminence(.increased)
+         }
+      }
+   }
+}

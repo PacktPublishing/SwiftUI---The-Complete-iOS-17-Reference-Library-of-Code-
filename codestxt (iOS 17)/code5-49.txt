@@ -1,0 +1,9 @@
+struct ContentView: View {
+   @ScaledMetric var customSize: CGFloat = 100
+
+   var body: some View {
+      Image(.toronto)
+         .resizable()
+         .frame(width: customSize, height: customSize)
+   }
+}

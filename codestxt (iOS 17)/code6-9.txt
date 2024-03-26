@@ -1,0 +1,3 @@
+#Preview("Header") {
+   HeaderView(title: .constant("My Preview Title"), titleInput: .constant(""))
+}

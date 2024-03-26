@@ -1,0 +1,8 @@
+struct ContentView: View {
+   var body: some View {
+      Label("Hello", systemImage: "envelope.circle")
+         .font(.largeTitle)
+         .labelStyle(.titleAndIcon)
+         .imageScale(.large)
+   }
+}

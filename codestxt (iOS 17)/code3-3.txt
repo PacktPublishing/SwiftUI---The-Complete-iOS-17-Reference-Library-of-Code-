@@ -1,0 +1,5 @@
+func doubleValue(number: Int) {
+   let total = number * 2
+   let message = "Result: \(total)"  // "Result: 10"
+}
+doubleValue(number: 5)

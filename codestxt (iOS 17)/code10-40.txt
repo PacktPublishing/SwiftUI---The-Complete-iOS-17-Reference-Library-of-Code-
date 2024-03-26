@@ -1,0 +1,28 @@
+@Model
+class Book: Identifiable {
+   @Attribute(.unique) var id: UUID = UUID()
+   var title: String = ""
+   @Relationship(deleteRule: .nullify, inverse: \Author.books) var author: Author?
+   @Attribute(.externalStorage) var cover: Data?
+   var year: Int = 0
+
+   init(title: String, author: Author?, cover: Data?, year: Int) {
+      self.title = title
+      self.author = author
+      self.cover = cover
+      self.year = year
+   }
+   var displayYear: String {
+      get {
+         let value = year > 0 ? String(year) : "Undefined"
+         return value
+      }
+   }
+   var displayCover: UIImage {
+      if let data = cover, let image = UIImage(data: data) {
+         return image
+      } else {
+         return UIImage(named: "nocover")!
+      }
+   }
+}

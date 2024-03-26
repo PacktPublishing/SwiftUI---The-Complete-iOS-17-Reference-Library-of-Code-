@@ -1,0 +1,4 @@
+Button("Save") {
+   title = nameInput + " " + surnameInput
+   focusName = nil
+}

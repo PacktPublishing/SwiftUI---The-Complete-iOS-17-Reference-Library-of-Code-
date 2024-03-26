@@ -1,0 +1,29 @@
+struct ContentView: View {
+   @Environment(ApplicationData.self) private var appData
+
+   var body: some View {
+      NavigationStack {
+         List(appData.userData) { book in
+            CellBook(book: book)
+         }
+         .navigationTitle(Text("Books"))
+         .toolbar(id: "mybar") {
+            ToolbarItem(id: "sort", placement: .secondaryAction) {
+               Button(action: {
+                  print("Sorting Books...")
+               }, label: {
+                  Label("Sort Books", systemImage: "arrow.up.arrow.down")
+               })
+            }
+            ToolbarItem(id: "settings", placement: .secondaryAction) {
+               Button(action: {
+                  print("Settings...")
+               }, label: {
+                  Label("Settings", systemImage: "gearshape")
+               })
+            }
+         }
+         .toolbarRole(.editor)
+      }
+   }
+}

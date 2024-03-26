@@ -1,0 +1,5 @@
+import SwiftUI
+
+class MyObject: NSObject {
+   @objc dynamic var testValue: Int = 0
+}

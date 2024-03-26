@@ -1,0 +1,53 @@
+struct AddAuthor: View {
+   @Environment(ApplicationData.self) private var appData
+   @Environment(\.modelContext) var dbContext
+   @State private var nameInput: String = ""
+   @State private var openAlert: Bool = false
+   @State private var birthday: Date = Date()
+   @State private var placeOfBirth: String = ""
+   
+   var body: some View {
+      VStack(alignment: .leading, spacing: 10) {
+         TextField("Insert Name", text: $nameInput)
+            .textFieldStyle(.roundedBorder)
+         DatePicker("Birthday", selection: $birthday, displayedComponents: .date)
+         TextField("Insert Address", text: $placeOfBirth)
+            .textFieldStyle(.roundedBorder)
+         HStack {
+            Spacer()
+            Button("Save") {
+               storeAuthor()
+            }.buttonStyle(.borderedProminent)
+         }
+         Spacer()
+      }.padding()
+         .alert("Error", isPresented: $openAlert, actions: {
+            Button("OK", role: .cancel, action: {})
+         }, message: { Text("The author already exists") })
+   }
+   func storeAuthor() {
+      let name = nameInput.trimmingCharacters(in: .whitespaces)
+      if !name.isEmpty {
+         let predicate = #Predicate<Author> { $0.name == name }
+         let descriptor = FetchDescriptor<Author>(predicate: predicate)
+         if let count = try? dbContext.fetchCount(descriptor), count > 0 {
+            openAlert = true
+         } else {
+            let newAuthor = Author(name: name, books: [], info: archiveInfo())
+            dbContext.insert(newAuthor)
+            appData.selectedAuthor = newAuthor
+            appData.viewPath.removeLast(2)
+         }
+      }
+   }
+   func archiveInfo() -> Data? {
+      var newBirthday = Date.distantFuture
+      if birthday < Date(timeIntervalSinceNow: -86400) {
+         newBirthday = birthday
+      }
+     let authorInfo = AuthorInfo(birthday: newBirthday, placeOfBirth: placeOfBirth)
+      let encoder = PropertyListEncoder()
+      let infoData = try? encoder.encode(authorInfo)
+      return infoData
+   }
+}

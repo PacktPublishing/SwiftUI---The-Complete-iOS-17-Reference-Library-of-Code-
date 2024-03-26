@@ -1,0 +1,8 @@
+struct ContentView: View {
+   var body: some View {
+      Image(.toronto)
+         .resizable()
+         .scaledToFit()
+         .frame(width: 250, height: 100)
+   }
+}

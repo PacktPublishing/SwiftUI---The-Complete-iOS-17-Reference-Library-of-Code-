@@ -1,0 +1,13 @@
+struct Employees: Equatable {
+   var name: String
+   var age: Int
+}
+func compareValues<T: Equatable>(value1: T, value2: T) -> String {
+   let message = value1 == value2 ? "equal" : "different"
+   return message
+}
+let employee1 = Employees(name: "George", age: 55)
+let employee2 = Employees(name: "Robert", age: 55)
+
+let result = compareValues(value1: employee1, value2: employee2)
+print("The values are \(result)")  // "The values are different"

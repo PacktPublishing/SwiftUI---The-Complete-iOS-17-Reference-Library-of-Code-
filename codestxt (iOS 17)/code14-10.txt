@@ -1,0 +1,25 @@
+struct ContentView: View {
+   @Environment(ApplicationData.self) private var appData
+   @FocusState var focusTitle: Bool
+   @State private var inputTitle: String = ""
+
+   var body: some View {
+      ScrollView {
+         VStack {
+            Image(.spot1)
+               .resizable()
+               .scaledToFit()
+            HStack {
+               TextField("Insert Title", text: $inputTitle)
+                  .textFieldStyle(.roundedBorder)
+                  .focused($focusTitle)
+               Button("Save") {
+                  focusTitle = false
+               }
+            }
+            Spacer()
+         }.padding()
+      }
+      .offset(CGSize(width: 0, height: appData.scrollOffset))
+   }
+}

@@ -1,0 +1,12 @@
+struct ContentView: View {
+   var body: some View {
+      NavigationStack {
+         VStack {
+            NavigationLink("Open UIKit View", destination: {
+               MyViewController()
+            }).buttonStyle(.borderedProminent)
+            Spacer()
+         }.padding()
+      }
+   }
+}

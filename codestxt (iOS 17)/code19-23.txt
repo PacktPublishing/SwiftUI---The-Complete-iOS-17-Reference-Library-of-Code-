@@ -1,0 +1,15 @@
+import SwiftUI
+
+@main
+struct TestApp: App {
+   var body: some Scene {
+      WindowGroup {
+         ContentView()
+      }
+      #if os(macOS)
+      Window("My Window", id: "mywindow") {
+         AuxiliaryView()
+      }
+      #endif
+   }
+}

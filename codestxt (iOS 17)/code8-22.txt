@@ -1,0 +1,15 @@
+struct ContentView: View {
+   @Environment(ApplicationData.self) private var appData
+
+   var body: some View {
+      NavigationStack {
+         List(appData.userData) { book in
+            NavigationLink(destination: {
+               DetailView(book: book)
+            }, label: {
+               CellBook(book: book)
+            })
+         }.navigationTitle(Text("Books"))
+      }
+   }
+}

@@ -1,0 +1,9 @@
+struct ContentView: View {
+   var body: some View {
+      Text("Hello World")
+         .font(.largeTitle)
+         .padding(20)
+         .background(Color.gray)
+         .border(Color.yellow, width: 10)
+   }
+}

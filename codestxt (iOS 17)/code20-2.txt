@@ -1,0 +1,7 @@
+#Preview {
+   ContentView()
+}
+#Preview {
+   ContentView()
+      .environment(\.locale, Locale(identifier: "es"))
+}

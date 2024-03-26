@@ -1,0 +1,12 @@
+import SwiftUI
+import Observation
+
+@Observable class ApplicationData {
+   var maintext: String
+   
+   static let shared = ApplicationData()
+   
+   private init() {
+      maintext = "Welcome"
+   }
+}

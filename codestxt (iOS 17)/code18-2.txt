@@ -1,0 +1,4 @@
+PhotosPicker(selection: $selected, matching: .images, photoLibrary: .shared()) { Text("Select a photo") }
+   .buttonStyle(.borderedProminent)
+   .photosPickerStyle(.inline)
+   .frame(height: 300)

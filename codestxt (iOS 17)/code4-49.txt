@@ -1,0 +1,14 @@
+import RegexBuilder
+
+let regex = Regex {
+   "Name:"
+   OneOrMore(.whitespace)
+   OneOrMore {
+      CharacterClass("a"..."z", "A"..."Z")
+   }
+}
+let message = "Name: John"
+let result = message.matches(of: regex)
+if !result.isEmpty {
+   print(result[0].output)
+}

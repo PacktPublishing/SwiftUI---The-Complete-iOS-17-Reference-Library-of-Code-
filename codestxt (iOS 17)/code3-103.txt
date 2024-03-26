@@ -1,0 +1,8 @@
+let ages = [32, 540, 12, 27, 54]
+let firstIndex = ages.firstIndex(where: { value in value < 30 })
+let firstValue = ages.first(where: { value in value < 30 })
+
+if firstIndex != nil && firstValue != nil {
+   print("First value is: \(firstValue!)")  // 12
+   print("First value is at index: \(firstIndex!)")  // 2
+}

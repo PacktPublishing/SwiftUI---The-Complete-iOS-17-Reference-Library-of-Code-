@@ -1,0 +1,3 @@
+let phone = "905-525-6666"
+let elements = phone.components(separatedBy: "-")
+print(elements.last!)  // "6666"

@@ -1,0 +1,7 @@
+struct ContentView: View {
+   let today = Date()
+
+   var body: some View {
+      Text(today.formatted(date: .abbreviated, time: .omitted))
+   }
+}

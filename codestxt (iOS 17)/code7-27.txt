@@ -1,0 +1,22 @@
+struct ContentView: View {
+   @Environment(ApplicationData.self) private var appData
+
+   var body: some View {
+      List {
+         Section(header: Text("Statistics")) {
+            HStack {
+               Text("Total Books:")
+               Spacer()
+               Text(String(appData.userData.count))
+            }
+         }.listSectionSeparator(.hidden, edges: .top)
+         .listSectionSeparatorTint(.blue)
+
+         Section(header: Text("My Books")) {
+            ForEach(appData.userData) { book in
+               CellBook(book: book)
+            }
+         }.listSectionSeparator(.hidden)
+      }.listStyle(.plain)
+   }
+}

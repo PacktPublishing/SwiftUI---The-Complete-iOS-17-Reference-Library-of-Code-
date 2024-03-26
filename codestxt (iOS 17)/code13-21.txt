@@ -1,0 +1,36 @@
+struct ContentView: View {
+   @Environment(ApplicationData.self) private var appData
+   @State private var route: MKRoute?
+
+   var body: some View {
+      Map(position: Bindable(appData).cameraPos) {
+         if let route {
+            MapPolyline(route)
+               .stroke(.red, lineWidth: 5)
+         }
+      }.onAppear {
+         calculateRoute()
+      }
+   }
+   func calculateRoute() {
+      let coordOrigin = CLLocationCoordinate2D(latitude: 40.7637825011971, longitude: -73.9731328627541)
+      let placeOrigin = MKPlacemark(coordinate: coordOrigin)
+      let origin = MKMapItem(placemark: placeOrigin)
+
+      let coordDestination = CLLocationCoordinate2D(latitude: 40.7523809365088, longitude: -73.9778321046893)
+      let placeDestination = MKPlacemark(coordinate: coordDestination)
+      let destination = MKMapItem(placemark: placeDestination)
+
+      let request = MKDirections.Request()
+      request.source = origin
+      request.destination = destination
+      request.requestsAlternateRoutes = false
+
+      Task {
+         let directions = MKDirections(request: request)
+         let results = try await directions.calculate()
+         let routes = results.routes
+         route = routes.first!
+      }
+   }
+}

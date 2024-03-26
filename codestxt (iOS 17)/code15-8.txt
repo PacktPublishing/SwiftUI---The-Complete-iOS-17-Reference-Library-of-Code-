@@ -1,0 +1,21 @@
+@MainActor
+func createFile() async {
+   if metaData.resultCount > 0 {
+      let file = metaData.result(at: 0) as! NSMetadataItem
+      let fileURL = file.value(forAttribute: NSMetadataItemURLKey) as! URL
+      document = MyDocument(fileURL: fileURL)
+   } else {
+      let manager = FileManager.default
+      if let fileURL = manager.url(forUbiquityContainerIdentifier: nil) {
+         let documentURL = fileURL.appendingPathComponent("Documents/myfile.dat")
+
+         document = MyDocument(fileURL: documentURL)
+         document.fileContent = Data()
+         if manager.fileExists(atPath: documentURL.path) {
+            let _ = await document.save(to: documentURL, for: .forOverwriting)
+         } else {
+            let _ = await document.save(to: documentURL, for: .forCreating)
+         }
+      }
+   }
+}

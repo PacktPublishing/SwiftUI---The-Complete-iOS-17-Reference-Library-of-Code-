@@ -1,0 +1,15 @@
+struct ContentView: View {
+   var body: some View {
+      Grid(verticalSpacing: 5) {
+         GridRow {
+            Text("Send us a Message")
+         }.gridCellColumns(2)
+         GridRow {
+            Image(systemName: "phone")
+               .frame(width: 100, height: 100)
+            Image(systemName: "envelope")
+               .frame(width: 100, height: 100)
+         }.background(.blue)
+      }.font(.title2)
+   }
+}

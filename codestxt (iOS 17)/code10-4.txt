@@ -1,0 +1,31 @@
+struct SettingsView: View {
+   @AppStorage("cornerSize") var cornerSize: Double = 0
+   @AppStorage("showYear") var showYear: Bool = true
+   @AppStorage("showCover") var showCover: Bool = true
+
+   var body: some View {
+      Form {
+         Section {
+            HStack(alignment: .top) {
+               Text("Corner Radius")
+                  .padding(.top, 6)
+               VStack {
+                  Slider(value: $cornerSize, in: 0...30)
+                  Image(.nocover)
+                     .resizable()
+                     .scaledToFit()
+                     .cornerRadius(cornerSize)
+                     .frame(width: 80, height: 100)
+               }
+            }
+         }
+         Section {
+            List {
+               Toggle("Show Picture", isOn: $showCover)
+               Toggle("Show Year", isOn: $showYear)
+            }
+         }
+      }
+      .navigationBarTitle("Settings")
+   }
+}

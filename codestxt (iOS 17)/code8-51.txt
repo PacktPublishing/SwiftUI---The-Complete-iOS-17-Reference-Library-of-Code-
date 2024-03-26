@@ -1,0 +1,39 @@
+import SwiftUI
+
+struct BooksView: View {
+   @Environment(ApplicationData.self) private var appData
+
+   var body: some View {
+      List(appData.userData) { book in
+         CellBook(book: book)
+      }
+   }
+}
+struct CellBook: View {
+   @Environment(ApplicationData.self) private var appData
+   let book: Book
+
+   var body: some View {
+      HStack(alignment: .top) {
+         if appData.showPictures {
+            Image(book.cover)
+               .resizable()
+               .scaledToFit()
+               .frame(width: 80, height: 100)
+         }
+         VStack(alignment: .leading, spacing: 2) {
+            Text(book.title).bold()
+            Text(book.author)
+            if appData.showYear {
+               Text(book.displayYear).font(.caption)
+            }
+            Spacer()
+         }.padding(.top, 5)
+         Spacer()
+      }
+   }
+}
+#Preview {
+   BooksView()
+      .environment(ApplicationData())
+}

@@ -1,0 +1,7 @@
+func showMacros() {
+   print("File Name \(#file)")  // "File Name MyPlayground.playground"
+   print("File Path \(#filePath)") // "File Name MyPlayground.playground"
+   print("Line \(#line)")  // "Line 4"
+   print("Function \(#function)")  // "Function showMacros()"
+}
+showMacros()

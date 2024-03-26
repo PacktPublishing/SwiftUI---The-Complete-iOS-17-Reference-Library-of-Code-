@@ -1,0 +1,31 @@
+struct ContentView: View {
+   @Environment(ApplicationData.self) private var appData
+   @State private var viewPath = NavigationPath()
+
+   var body: some View {
+      NavigationStack(path: $viewPath) {
+         List(appData.userData) { book in
+            NavigationLink(value: book, label: {
+               CellBook(book: book)
+            })
+         }
+         .navigationTitle(Text("Books"))
+         .navigationBarTitleDisplayMode(.inline)
+         .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+               NavigationLink(value: "Settings View", label: {
+                  Image(systemName: "gear")
+               })
+            }
+         }
+         .navigationDestination(for: Book.self, destination: { book in
+            DetailView(viewPath: $viewPath, book: book)
+         })
+         .navigationDestination(for: String.self, destination: { viewID in
+            if viewID == "Settings View" {
+               SettingsView(viewPath: $viewPath)
+            }
+         })
+      }
+   }
+}

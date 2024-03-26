@@ -1,0 +1,20 @@
+struct ContentView: View {
+   @Environment(ApplicationData.self) private var appData
+
+   var body: some View {
+      Table(of: Employees.self, columns: {
+         TableColumn("Name", value: \.name)
+         TableColumn("Position ", value: \.position)
+      }, rows: {
+         ForEach(appData.listOfEmployees) { employee in
+            if employee.subordinates.isEmpty {
+               TableRow(employee)
+            } else {
+               DisclosureTableRow(employee) {
+                  ForEach(employee.subordinates)
+               }
+            }
+         }
+      })
+   }
+}
